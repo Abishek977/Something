@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Election MAP</title>
+    
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+    <link rel="stylesheet" href="style.css"> <!-- Link to your custom CSS -->
+</head>
+<body>
+    <!-- Header Section -->
+    <div id="header">
+        <div id="logo">
+            <img src="Image/LOGO1.png" alt="Logo" />
+        </div>
+        <div id="page-title">Election Facilities Map</div>
+    </div>
+
+    <!-- Main Content Container -->
+    <div class="container">
+        <!-- Left Panel: Graphs & Preloaded Maps -->
+        <div class="left-panel">
+            
+            <!-- Project Description -->
+            <div class="project-description">
+                <h3>Project Overview</h3>
+                <p>
+                    This project was carried out For election campaing and this data re only used during this period o
+                </p>
+                <p>
+                    The data obtained has been analyzed and visualized using thematic maps and graphs shown below. 
+                    The information displayed on the interactive map is a direct result of the field survey efforts.
+                </p>
+            </div>
+                   <!-- Download Section -->
+<div class="downloads">
+    <h3>Downloads</h3>
+    <ul>
+        <li>
+            <span>
+                <a href="Image/Sample for perosn and there phone deatils.png" target="_blank">
+                     Sample Thematic Map (IMG)
+                </a>
+            </span>
+            <a href="MAPS/Layout2.pdf" download class="download-icon" title="Download PDF">⬇️</a>
+        </li>
+        <li>
+            <span>
+                <a href="MAPS/Graph_2.jpg" target="_blank">
+                    📊 Facility Type Pie Chart (JPG)
+                </a>
+            </span>
+            <a href="MAPS/Graph 2.jpg" download class="download-icon" title="Download JPG">⬇️</a>
+        </li>
+        <li>
+            <span>
+                <a href="MAPS/Graph1.png" target="_blank">
+                    🚗 Traffic-Based Graph (PNG)
+                </a>
+            </span>
+            <a href="MAPS/Graph1.png" download class="download-icon" title="Download PNG">⬇️</a>
+        </li>
+    </ul>
+</div>
+
+       
+        </div>
+
+        <!-- Right Panel: Map Section -->
+        <div class="right-panel">
+            <div id="map"></div>
+            <div id="map-controls">
+                <button id="hospital-btn">Pooling Booth</button>
+                <button id="clinic-btn">My personal per settelment</button>
+                <button id="pharmacy-btn">ward wise</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <div id="footer">© Copyright RSP</div>
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="app.js"></script> <!-- Link to your custom JS -->
+</body>
+</html>
