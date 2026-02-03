@@ -1,32 +1,29 @@
 // --- Map Initialization ---
 const map = L.map('map', {
-    center: [28.10, 83.85],
+    center: [28.07, 83.87],  // Syangja District center
     zoom: 11,
-    maxZoom: 17,
+    maxZoom: 18,
     minZoom: 9,
-    maxBounds: [
-        [27.85, 83.70],
-        [28.25, 84.00]
-    ],
-    maxBoundsViscosity: 1.0,
-    scrollWheelZoom: true
+    scrollWheelZoom: true,
+    zoomControl: true
 });
 
 // --- Base Layer ---
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: 'Map data &copy; OpenStreetMap contributors'
+    attribution: '© OpenStreetMap contributors',
+    maxZoom: 19
 }).addTo(map);
 
-// --- Custom Icons for different municipalities (7 colors) ---
+// --- Custom Icons for different municipalities (8 colors) ---
 const municipalityColors = {
-    Arjunchaupari: '#FF6B6B',
-    Aandhikhola: '#4ECDC4',
-    Putalibazar: '#45B7D1',
-    Waling: '#F7B731',
-    Phedikhola: '#A55EEA',
-    Bhirkot: '#26DE81',
-    Biruwa: '#FD79A8',
-    Harinas: '#FC5C65'
+    'Arjunchaupari': '#FF6B6B',
+    'Aandhikhola': '#4ECDC4',
+    'Putalibazar': '#45B7D1',
+    'Waling': '#F7B731',
+    'Phedikhola': '#A55EEA',
+    'Bhirkot': '#26DE81',
+    'Biruwa': '#FD79A8',
+    'Harinas': '#FC5C65'
 };
 
 function createIcon(municipality, party, visits) {
@@ -77,157 +74,190 @@ function getRandomVisits() {
     return Math.floor(Math.random() * 6); // 0 to 5 visits
 }
 
-// --- Enhanced polling stations data with new attributes ---
+// --- Polling stations data with CORRECTED coordinates (WGS84) ---
+// Converted from Modified Everest 1830 / UTM Zone 45N to WGS84
 const pollingStationsData = [
-    {"lat": 28.144169, "lng": 83.759528, "municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Ka)", "code": "3109", "voters": "1064", "range": "S.No. 1 to 1064"},
-    {"lat": 28.145582, "lng": 83.759165, "municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Kha)", "code": "", "voters": "1064", "range": "S.No. 1065 to 2128"},
-    {"lat": 28.144584, "lng": 83.760674, "municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Ga)", "code": "", "voters": "1079", "range": "S.No. 2129 to 3207"},
-    {"lat": 28.140751, "lng": 83.777301, "municipality": "Arjunchaupari", "ward": "2", "station": "Ranicharri Basic School, Khate (Ka)", "code": "3113", "voters": "1064", "range": "S.No. 1 to 1064"},
-    {"lat": 28.140336, "lng": 83.776741, "municipality": "Arjunchaupari", "ward": "2", "station": "Ranicharri Basic School, Khate (Kha)", "code": "", "voters": "1075", "range": "S.No. 1065 to 2139"},
-    {"lat": 28.129302, "lng": 83.7912, "municipality": "Arjunchaupari", "ward": "3", "station": "Saraswati Basic School, Adhikharka", "code": "3120", "voters": "517", "range": "S.No. 1 to 517"},
-    {"lat": 28.129282, "lng": 83.79176, "municipality": "Arjunchaupari", "ward": "3", "station": "Ward No. 3 Office, Simalchaur (Ka)", "code": "11673", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.130847, "lng": 83.79057, "municipality": "Arjunchaupari", "ward": "3", "station": "Ward No. 3 Office, Simalchaur (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483"},
-    {"lat": 28.113793, "lng": 83.799416, "municipality": "Arjunchaupari", "ward": "4", "station": "Jan Ma.Vi., Rapakot (Ka)", "code": "3117", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.113016, "lng": 83.799394, "municipality": "Arjunchaupari", "ward": "4", "station": "Jan Ma.Vi., Rapakot (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.112906, "lng": 83.798979, "municipality": "Arjunchaupari", "ward": "4", "station": "Shahid A.Vi., Khor", "code": "10233", "voters": "287", "range": "S.No. 1 to 287"},
-    {"lat": 28.095641, "lng": 83.79963, "municipality": "Arjunchaupari", "ward": "5", "station": "Sarvodaya Ma.Vi., Talpokhari", "code": "2862", "voters": "929", "range": "S.No. 1 to 929"},
-    {"lat": 28.096955, "lng": 83.798283, "municipality": "Arjunchaupari", "ward": "5", "station": "5 No. Ward Office, Pipaldanda", "code": "2865", "voters": "695", "range": "S.No. 1 to 695"},
-    {"lat": 28.095328, "lng": 83.79857, "municipality": "Arjunchaupari", "ward": "5", "station": "Kalika Basic School, Mulabari", "code": "2869", "voters": "872", "range": "S.No. 1 to 872"},
-    {"lat": 28.07932, "lng": 83.792181, "municipality": "Arjunchaupari", "ward": "6", "station": "Gaunpharka Janhit Basic School, Kulebari", "code": "2845", "voters": "869", "range": "S.No. 1 to 869"},
-    {"lat": 28.080994, "lng": 83.791449, "municipality": "Arjunchaupari", "ward": "6", "station": "Jan Vikas Basic School, Siudbari", "code": "2849", "voters": "782", "range": "S.No. 1 to 782"},
-    {"lat": 28.080101, "lng": 83.790924, "municipality": "Arjunchaupari", "ward": "6", "station": "Darau Ma.Vi., Darau", "code": "2852", "voters": "589", "range": "S.No. 1 to 589"},
-    {"lat": 28.080199, "lng": 83.791734, "municipality": "Arjunchaupari", "ward": "6", "station": "Rashtriya A.Vi., Tamakhabari", "code": "10234", "voters": "434", "range": "S.No. 1 to 434"},
-    {"lat": 28.040123, "lng": 83.850061, "municipality": "Aandhikhola", "ward": "1", "station": "Trishahid Ma.Vi., Panchhmul (Ka)", "code": "2853", "voters": "868", "range": "S.No. 1 to 868"},
-    {"lat": 28.040537, "lng": 83.849084, "municipality": "Aandhikhola", "ward": "1", "station": "Trishahid Ma.Vi., Panchhmul (Kha)", "code": "", "voters": "920", "range": "S.No. 869 to 1788"},
-    {"lat": 28.039007, "lng": 83.850217, "municipality": "Aandhikhola", "ward": "1", "station": "Gaunpharka Basic School, Dhadhu (Ka)", "code": "2854", "voters": "532", "range": "S.No. 1 to 532"},
-    {"lat": 28.040933, "lng": 83.850275, "municipality": "Aandhikhola", "ward": "1", "station": "Gaunpharka Basic School, Dhadhu (Kha)", "code": "", "voters": "581", "range": "S.No. 533 to 1113"},
-    {"lat": 28.040389, "lng": 83.850379, "municipality": "Aandhikhola", "ward": "1", "station": "Janhit Ma.Vi., Majhakateri", "code": "2859", "voters": "740", "range": "S.No. 1 to 740"},
-    {"lat": 28.035168, "lng": 83.868023, "municipality": "Aandhikhola", "ward": "2", "station": "Jana Pradip Ma.Vi., Duipiple (Ka)", "code": "2565", "voters": "672", "range": "S.No. 1 to 672"},
-    {"lat": 28.036452, "lng": 83.867226, "municipality": "Aandhikhola", "ward": "2", "station": "Jana Pradip Ma.Vi., Duipiple (Kha)", "code": "", "voters": "709", "range": "S.No. 673 to 1381"},
-    {"lat": 28.035253, "lng": 83.868218, "municipality": "Aandhikhola", "ward": "2", "station": "Dahare Basic School, Ukhabari", "code": "2569", "voters": "698", "range": "S.No. 1 to 698"},
-    {"lat": 28.035717, "lng": 83.866792, "municipality": "Aandhikhola", "ward": "2", "station": "Chilaunebas Health Post, Chilaunebas", "code": "11674", "voters": "875", "range": "S.No. 1 to 875"},
-    {"lat": 28.021446, "lng": 83.883453, "municipality": "Aandhikhola", "ward": "3", "station": "Karthok Basic School, Chari", "code": "2572", "voters": "670", "range": "S.No. 1 to 670"},
-    {"lat": 28.026175, "lng": 83.881758, "municipality": "Aandhikhola", "ward": "3", "station": "Karthok Ma.Vi., Karthok", "code": "2575", "voters": "779", "range": "S.No. 1 to 779"},
-    {"lat": 28.021896, "lng": 83.898084, "municipality": "Aandhikhola", "ward": "4", "station": "Gau Sewa A.Vi., Alamadevi (Ka)", "code": "2577", "voters": "1064", "range": "S.No. 1 to 1064"},
-    {"lat": 28.022191, "lng": 83.897299, "municipality": "Aandhikhola", "ward": "4", "station": "Gau Sewa A.Vi., Alamadevi (Kha)", "code": "", "voters": "1064", "range": "S.No. 1065 to 2128"},
-    {"lat": 28.022498, "lng": 83.898733, "municipality": "Aandhikhola", "ward": "4", "station": "Gau Sewa A.Vi., Alamadevi (Ga)", "code": "", "voters": "1114", "range": "S.No. 2129 to 3242"},
-    {"lat": 28.00743, "lng": 83.911622, "municipality": "Aandhikhola", "ward": "5", "station": "Bagnas Ma.Vi., Dhaubang (Ka)", "code": "2578", "voters": "945", "range": "S.No. 1 to 945"},
-    {"lat": 28.007767, "lng": 83.910829, "municipality": "Aandhikhola", "ward": "5", "station": "Bagnas Ma.Vi., Dhaubang (Kha)", "code": "", "voters": "991", "range": "S.No. 946 to 1936"},
-    {"lat": 28.007967, "lng": 83.911212, "municipality": "Aandhikhola", "ward": "5", "station": "Basanta Basic School, Kuirekot", "code": "2579", "voters": "503", "range": "S.No. 1 to 503"},
-    {"lat": 28.010175, "lng": 83.920667, "municipality": "Aandhikhola", "ward": "6", "station": "Bagnas Secondary School, Sanganbichaur (Ka)", "code": "2580", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.010464, "lng": 83.920046, "municipality": "Aandhikhola", "ward": "6", "station": "Bagnas Secondary School, Sanganbichaur (Kha)", "code": "", "voters": "749", "range": "S.No. 729 to 1477"},
-    {"lat": 28.010074, "lng": 83.921187, "municipality": "Aandhikhola", "ward": "6", "station": "Kalika Basic School, Syang", "code": "2584", "voters": "626", "range": "S.No. 1 to 626"},
-    {"lat": 28.010282, "lng": 83.919464, "municipality": "Aandhikhola", "ward": "6", "station": "Devsthan Basic School, Devisthan", "code": "2585", "voters": "504", "range": "S.No. 1 to 504"},
-    {"lat": 28.008348, "lng": 83.930766, "municipality": "Aandhikhola", "ward": "7", "station": "Shree Janapriya Ma.Vi., Setidovan (Ka)", "code": "2587", "voters": "860", "range": "S.No. 1 to 860"},
-    {"lat": 28.008638, "lng": 83.929986, "municipality": "Aandhikhola", "ward": "7", "station": "Shree Janapriya Ma.Vi., Setidovan (Kha)", "code": "", "voters": "895", "range": "S.No. 861 to 1755"},
-    {"lat": 28.090382, "lng": 83.863152, "municipality": "Putalibazar", "ward": "1", "station": "Putalibazar Municipality, Putalibazar (Ka)", "code": "2873", "voters": "945", "range": "S.No. 1 to 945"},
-    {"lat": 28.090691, "lng": 83.862381, "municipality": "Putalibazar", "ward": "1", "station": "Putalibazar Municipality, Putalibazar (Kha)", "code": "", "voters": "991", "range": "S.No. 946 to 1936"},
-    {"lat": 28.090968, "lng": 83.863721, "municipality": "Putalibazar", "ward": "1", "station": "Putalibazar Municipality, Putalibazar (Ga)", "code": "", "voters": "1034", "range": "S.No. 1937 to 2970"},
-    {"lat": 28.093542, "lng": 83.873041, "municipality": "Putalibazar", "ward": "2", "station": "Ward No. 2 Office, Balkunapani (Ka)", "code": "2876", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.093835, "lng": 83.872262, "municipality": "Putalibazar", "ward": "2", "station": "Ward No. 2 Office, Balkunapani (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.096425, "lng": 83.879531, "municipality": "Putalibazar", "ward": "3", "station": "Annapurna Basic School, Kerabari (Ka)", "code": "2880", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.096713, "lng": 83.878761, "municipality": "Putalibazar", "ward": "3", "station": "Annapurna Basic School, Kerabari (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483"},
-    {"lat": 28.105814, "lng": 83.872772, "municipality": "Putalibazar", "ward": "4", "station": "Panchamul Basic School, Panchamul (Ka)", "code": "2884", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.106102, "lng": 83.871992, "municipality": "Putalibazar", "ward": "4", "station": "Panchamul Basic School, Panchamul (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.114324, "lng": 83.868343, "municipality": "Putalibazar", "ward": "5", "station": "Ganesh Ma.Vi., Bharakot (Ka)", "code": "2888", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.114612, "lng": 83.867563, "municipality": "Putalibazar", "ward": "5", "station": "Ganesh Ma.Vi., Bharakot (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512"},
-    {"lat": 28.114889, "lng": 83.868903, "municipality": "Putalibazar", "ward": "5", "station": "Ganesh Ma.Vi., Bharakot (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314"},
-    {"lat": 28.122734, "lng": 83.859254, "municipality": "Putalibazar", "ward": "6", "station": "Ratnanagar Basic School, Banjhakhet", "code": "2893", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.122996, "lng": 83.858482, "municipality": "Putalibazar", "ward": "6", "station": "Janakalyan Ma.Vi., Ratnanagar (Ka)", "code": "2897", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.123284, "lng": 83.859812, "municipality": "Putalibazar", "ward": "6", "station": "Janakalyan Ma.Vi., Ratnanagar (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.130647, "lng": 83.850263, "municipality": "Putalibazar", "ward": "7", "station": "Janata Ma.Vi., Tingre Beshi (Ka)", "code": "2899", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.130935, "lng": 83.849493, "municipality": "Putalibazar", "ward": "7", "station": "Janata Ma.Vi., Tingre Beshi (Kha)", "code": "", "voters": "749", "range": "S.No. 729 to 1477"},
-    {"lat": 28.137567, "lng": 83.841644, "municipality": "Putalibazar", "ward": "8", "station": "Himalaya Ma.Vi., Surupakot (Ka)", "code": "2903", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.137855, "lng": 83.840874, "municipality": "Putalibazar", "ward": "8", "station": "Himalaya Ma.Vi., Surupakot (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.089271, "lng": 83.918362, "municipality": "Waling", "ward": "1", "station": "Janapriya Ma.Vi., Jyamire (Ka)", "code": "2777", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.089559, "lng": 83.917592, "municipality": "Waling", "ward": "1", "station": "Janapriya Ma.Vi., Jyamire (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.097682, "lng": 83.925851, "municipality": "Waling", "ward": "2", "station": "Srijana A.Vi., Dhital Beshi (Ka)", "code": "2781", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.097970, "lng": 83.925081, "municipality": "Waling", "ward": "2", "station": "Srijana A.Vi., Dhital Beshi (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483"},
-    {"lat": 28.105592, "lng": 83.933342, "municipality": "Waling", "ward": "3", "station": "Shikhar Basic School, Shikhar", "code": "2785", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.105880, "lng": 83.932572, "municipality": "Waling", "ward": "3", "station": "Waling Municipality Office, Waling (Ka)", "code": "2789", "voters": "868", "range": "S.No. 1 to 868"},
-    {"lat": 28.106168, "lng": 83.933902, "municipality": "Waling", "ward": "3", "station": "Waling Municipality Office, Waling (Kha)", "code": "", "voters": "920", "range": "S.No. 869 to 1788"},
-    {"lat": 28.113501, "lng": 83.941253, "municipality": "Waling", "ward": "4", "station": "Shanti Ma.Vi., Ramja (Ka)", "code": "2793", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.113789, "lng": 83.940483, "municipality": "Waling", "ward": "4", "station": "Shanti Ma.Vi., Ramja (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512"},
-    {"lat": 28.114066, "lng": 83.941823, "municipality": "Waling", "ward": "4", "station": "Shanti Ma.Vi., Ramja (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314"},
-    {"lat": 28.121411, "lng": 83.949164, "municipality": "Waling", "ward": "5", "station": "Mahendra Ma.Vi., Pame (Ka)", "code": "2797", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.121699, "lng": 83.948394, "municipality": "Waling", "ward": "5", "station": "Mahendra Ma.Vi., Pame (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.129322, "lng": 83.957075, "municipality": "Waling", "ward": "6", "station": "Deurali Basic School, Deurali", "code": "2801", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.129610, "lng": 83.956305, "municipality": "Waling", "ward": "6", "station": "6 No. Ward Office, Kerunja (Ka)", "code": "2805", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.129898, "lng": 83.957635, "municipality": "Waling", "ward": "6", "station": "6 No. Ward Office, Kerunja (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.137233, "lng": 83.964986, "municipality": "Waling", "ward": "7", "station": "Kalika Ma.Vi., Arjewa (Ka)", "code": "2807", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.137521, "lng": 83.964216, "municipality": "Waling", "ward": "7", "station": "Kalika Ma.Vi., Arjewa (Kha)", "code": "", "voters": "749", "range": "S.No. 729 to 1477"},
-    {"lat": 28.145144, "lng": 83.972897, "municipality": "Waling", "ward": "8", "station": "Siddhartha Ma.Vi., Bhorle Tad (Ka)", "code": "2811", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.145432, "lng": 83.972127, "municipality": "Waling", "ward": "8", "station": "Siddhartha Ma.Vi., Bhorle Tad (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.152055, "lng": 83.980808, "municipality": "Waling", "ward": "9", "station": "Janasewa Ma.Vi., Baseri (Ka)", "code": "2815", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.152343, "lng": 83.980038, "municipality": "Waling", "ward": "9", "station": "Janasewa Ma.Vi., Baseri (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.159966, "lng": 83.988719, "municipality": "Waling", "ward": "10", "station": "Janajyoti Ma.Vi., Mudikuwa (Ka)", "code": "2819", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.160254, "lng": 83.987949, "municipality": "Waling", "ward": "10", "station": "Janajyoti Ma.Vi., Mudikuwa (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483"},
-    {"lat": 28.067877, "lng": 83.726631, "municipality": "Phedikhola", "ward": "1", "station": "Machhapuchhre Ma.Vi., Dhading (Ka)", "code": "2756", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.068165, "lng": 83.725861, "municipality": "Phedikhola", "ward": "1", "station": "Machhapuchhre Ma.Vi., Dhading (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.075788, "lng": 83.734542, "municipality": "Phedikhola", "ward": "2", "station": "Kalu Pandey Ma.Vi., Kalu Pandey", "code": "2760", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.076076, "lng": 83.733772, "municipality": "Phedikhola", "ward": "2", "station": "Phedikhola Municipality Office, Phedikhola (Ka)", "code": "2764", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.076364, "lng": 83.735102, "municipality": "Phedikhola", "ward": "2", "station": "Phedikhola Municipality Office, Phedikhola (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.083699, "lng": 83.742453, "municipality": "Phedikhola", "ward": "3", "station": "Janata Basic School, Lahare", "code": "2766", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.083987, "lng": 83.741683, "municipality": "Phedikhola", "ward": "3", "station": "3 No. Ward Office, Pokharithok (Ka)", "code": "2770", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.084275, "lng": 83.743013, "municipality": "Phedikhola", "ward": "3", "station": "3 No. Ward Office, Pokharithok (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.091610, "lng": 83.750364, "municipality": "Phedikhola", "ward": "4", "station": "Shree Devi Basic School, Bhaluban", "code": "2773", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.091898, "lng": 83.749594, "municipality": "Phedikhola", "ward": "4", "station": "4 No. Ward Office, Khahare (Ka)", "code": "11675", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.092186, "lng": 83.750924, "municipality": "Phedikhola", "ward": "4", "station": "4 No. Ward Office, Khahare (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483"},
-    {"lat": 28.169421, "lng": 83.814915, "municipality": "Bhirkot", "ward": "1", "station": "Panchakanya Ma.Vi., Belchautara (Ka)", "code": "2906", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.169709, "lng": 83.814145, "municipality": "Bhirkot", "ward": "1", "station": "Panchakanya Ma.Vi., Belchautara (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512"},
-    {"lat": 28.169986, "lng": 83.815485, "municipality": "Bhirkot", "ward": "1", "station": "Panchakanya Ma.Vi., Belchautara (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314"},
-    {"lat": 28.177332, "lng": 83.822826, "municipality": "Bhirkot", "ward": "2", "station": "Sharada Ma.Vi., Sirsekot (Ka)", "code": "2910", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.177620, "lng": 83.822056, "municipality": "Bhirkot", "ward": "2", "station": "Sharada Ma.Vi., Sirsekot (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.184243, "lng": 83.830737, "municipality": "Bhirkot", "ward": "3", "station": "Janakala Basic School, Satyawati", "code": "2914", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.184531, "lng": 83.829967, "municipality": "Bhirkot", "ward": "3", "station": "Bhrikuteshwor Ma.Vi., Bhrikot (Ka)", "code": "2918", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.184819, "lng": 83.831297, "municipality": "Bhirkot", "ward": "3", "station": "Bhrikuteshwor Ma.Vi., Bhrikot (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.192154, "lng": 83.838648, "municipality": "Bhirkot", "ward": "4", "station": "Samabeshi Basic School, Dashdhunga", "code": "2920", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.192442, "lng": 83.837878, "municipality": "Bhirkot", "ward": "4", "station": "4 No. Ward Office, Manakamana (Ka)", "code": "2924", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.192730, "lng": 83.839208, "municipality": "Bhirkot", "ward": "4", "station": "4 No. Ward Office, Manakamana (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.200065, "lng": 83.846559, "municipality": "Bhirkot", "ward": "5", "station": "Janashikshya Ma.Vi., Mirlung (Ka)", "code": "2927", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.200353, "lng": 83.845789, "municipality": "Bhirkot", "ward": "5", "station": "Janashikshya Ma.Vi., Mirlung (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.149966, "lng": 83.888301, "municipality": "Biruwa", "ward": "1", "station": "Rastriya Ma.Vi., Takum (Ka)", "code": "2823", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.150254, "lng": 83.887531, "municipality": "Biruwa", "ward": "1", "station": "Rastriya Ma.Vi., Takum (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512"},
-    {"lat": 28.150531, "lng": 83.888871, "municipality": "Biruwa", "ward": "1", "station": "Rastriya Ma.Vi., Takum (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314"},
-    {"lat": 28.157877, "lng": 83.896212, "municipality": "Biruwa", "ward": "2", "station": "Mahendra Ma.Vi., Alampu (Ka)", "code": "2827", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.158165, "lng": 83.895442, "municipality": "Biruwa", "ward": "2", "station": "Mahendra Ma.Vi., Alampu (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.165788, "lng": 83.904123, "municipality": "Biruwa", "ward": "3", "station": "Janata Basic School, Pelakot", "code": "2831", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.166076, "lng": 83.903353, "municipality": "Biruwa", "ward": "3", "station": "Tribhuwan Ma.Vi., Biruwa (Ka)", "code": "2835", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.166364, "lng": 83.904683, "municipality": "Biruwa", "ward": "3", "station": "Tribhuwan Ma.Vi., Biruwa (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.173699, "lng": 83.912034, "municipality": "Biruwa", "ward": "4", "station": "Bal Kalyan Basic School, Bichour", "code": "2837", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.173987, "lng": 83.911264, "municipality": "Biruwa", "ward": "4", "station": "4 No. Ward Office, Jhapukharka (Ka)", "code": "2841", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.174275, "lng": 83.912594, "municipality": "Biruwa", "ward": "4", "station": "4 No. Ward Office, Jhapukharka (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516"},
-    {"lat": 28.219183, "lng": 83.950782, "municipality": "Harinas", "ward": "1", "station": "Bhojprakash Ma.Vi. Saldanda (Ka)", "code": "2705", "voters": "728", "range": "S.No. 1 to 728"},
-    {"lat": 28.219382, "lng": 83.94999, "municipality": "Harinas", "ward": "1", "station": "Bhojprakash Ma.Vi. Saldanda (Kha)", "code": "", "voters": "751", "range": "S.No. 729 to 1479"},
-    {"lat": 28.21975, "lng": 83.950208, "municipality": "Harinas", "ward": "1", "station": "Thanapati A.Vi., Khairikot", "code": "10236", "voters": "459", "range": "S.No. 1 to 459"},
-    {"lat": 28.216404, "lng": 83.968265, "municipality": "Harinas", "ward": "2", "station": "Jana Kalyan Secondary School, Dhyarsingh Bhandyang (Ka)", "code": "2711", "voters": "644", "range": "S.No. 1 to 644"},
-    {"lat": 28.216027, "lng": 83.96689, "municipality": "Harinas", "ward": "2", "station": "Jana Kalyan Secondary School, Dhyarsingh Bhandyang (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312"},
-    {"lat": 28.216787, "lng": 83.967321, "municipality": "Harinas", "ward": "2", "station": "Mahima Ma.Vi., Chisapani", "code": "2712", "voters": "497", "range": "S.No. 1 to 497"},
-    {"lat": 28.205876, "lng": 83.982114, "municipality": "Harinas", "ward": "3", "station": "Kalika A.Vi., Dhupdanda (Ka)", "code": "10237", "voters": "1064", "range": "S.No. 1 to 1064"},
-    {"lat": 28.205422, "lng": 83.98086, "municipality": "Harinas", "ward": "3", "station": "Kalika A.Vi., Dhupdanda (Kha)", "code": "", "voters": "1064", "range": "S.No. 1065 to 2128"},
-    {"lat": 28.187905, "lng": 83.988261, "municipality": "Harinas", "ward": "4", "station": "Saraswati Basic School, Kulungkhola", "code": "2946", "voters": "282", "range": "S.No. 1 to 282"},
-    {"lat": 28.188737, "lng": 83.989988, "municipality": "Harinas", "ward": "4", "station": "Bal Jyoti Basic School Karanswara (Ka)", "code": "2952", "voters": "532", "range": "S.No. 1 to 532"},
-    {"lat": 28.189635, "lng": 83.98832, "municipality": "Harinas", "ward": "4", "station": "Bal Jyoti Basic School Karanswara (Kha)", "code": "", "voters": "587", "range": "S.No. 533 to 1119"},
-    {"lat": 28.188447, "lng": 83.988431, "municipality": "Harinas", "ward": "4", "station": "4 No. Ward Office, Rodikhola (Ka)", "code": "2954", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.188649, "lng": 83.98859, "municipality": "Harinas", "ward": "4", "station": "4 No. Ward Office, Rodikhola (Kha)", "code": "", "voters": "759", "range": "S.No. 757 to 1515"},
-    {"lat": 28.170803, "lng": 83.989535, "municipality": "Harinas", "ward": "5", "station": "Kalika Deurali Secondary School, Kalwa Deurali (Ka)", "code": "2931", "voters": "812", "range": "S.No. 1 to 812"},
-    {"lat": 28.171491, "lng": 83.989189, "municipality": "Harinas", "ward": "5", "station": "Kalika Deurali Secondary School, Kalwa Deurali (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666"},
-    {"lat": 28.154383, "lng": 83.980285, "municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Ka)", "code": "2934", "voters": "756", "range": "S.No. 1 to 756"},
-    {"lat": 28.154841, "lng": 83.980929, "municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512"},
-    {"lat": 28.154265, "lng": 83.98154, "municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314"},
-    {"lat": 28.144578, "lng": 83.96781, "municipality": "Harinas", "ward": "7", "station": "Siddha Basic School, Khaddrithok", "code": "2937", "voters": "1054", "range": "S.No. 1 to 1054"},
-    {"lat": 28.144696, "lng": 83.966559, "municipality": "Harinas", "ward": "7", "station": "Amala Bhandyang Ma.Vi., Changsing (Ka)", "code": "2942", "voters": "588", "range": "S.No. 1 to 588"},
-    {"lat": 28.144497, "lng": 83.967968, "municipality": "Harinas", "ward": "7", "station": "Amala Bhandyang Ma.Vi., Changsing (Kha)", "code": "", "voters": "610", "range": "S.No. 589 to 1198"}
+    {"municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Ka)", "code": "3109", "voters": "1064", "range": "S.No. 1 to 1064", "lat": 28.088265, "lng": 83.744582},
+    {"municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Kha)", "code": "", "voters": "1064", "range": "S.No. 1065 to 2128", "lat": 28.089678, "lng": 83.744219},
+    {"municipality": "Arjunchaupari", "ward": "1", "station": "Parkanya Ma.Vi., Ajayameru Shree (Ga)", "code": "", "voters": "1079", "range": "S.No. 2129 to 3207", "lat": 28.08868, "lng": 83.745727},
+    {"municipality": "Arjunchaupari", "ward": "2", "station": "Ranicharri Basic School, Khate (Ka)", "code": "3113", "voters": "1064", "range": "S.No. 1 to 1064", "lat": 28.084101, "lng": 83.773558},
+    {"municipality": "Arjunchaupari", "ward": "2", "station": "Ranicharri Basic School, Khate (Kha)", "code": "", "voters": "1075", "range": "S.No. 1065 to 2139", "lat": 28.083686, "lng": 83.772998},
+    {"municipality": "Arjunchaupari", "ward": "3", "station": "Saraswati Basic School, Adhikharka", "code": "3120", "voters": "517", "range": "S.No. 1 to 517", "lat": 28.098717, "lng": 83.725123},
+    {"municipality": "Arjunchaupari", "ward": "3", "station": "Ward No. 3 Office, Simalchaur (Ka)", "code": "11673", "voters": "728", "range": "S.No. 1 to 728", "lat": 28.099719, "lng": 83.761239},
+    {"municipality": "Arjunchaupari", "ward": "3", "station": "Ward No. 3 Office, Simalchaur (Kha)", "code": "", "voters": "755", "range": "S.No. 729 to 1483", "lat": 28.101285, "lng": 83.760048},
+    {"municipality": "Arjunchaupari", "ward": "4", "station": "Jan Ma.Vi., Rapakot (Ka)", "code": "3117", "voters": "756", "range": "S.No. 1 to 756", "lat": 28.115341, "lng": 83.74965},
+    {"municipality": "Arjunchaupari", "ward": "4", "station": "Jan Ma.Vi., Rapakot (Kha)", "code": "", "voters": "760", "range": "S.No. 757 to 1516", "lat": 28.114564, "lng": 83.749628},
+    {"municipality": "Arjunchaupari", "ward": "4", "station": "Shahid A.Vi., Khor", "code": "10233", "voters": "287", "range": "S.No. 1 to 287", "lat": 28.123414, "lng": 83.737983},
+    {"municipality": "Arjunchaupari", "ward": "5", "station": "Sarvodaya Ma.Vi., Talpokhari", "code": "2862", "voters": "929", "range": "S.No. 1 to 929", "lat": 28.134957, "lng": 83.717233},
+    {"municipality": "Arjunchaupari", "ward": "5", "station": "5 No. Ward Office, Pipaldanda", "code": "2865", "voters": "695", "range": "S.No. 1 to 695", "lat": 28.133647, "lng": 83.741975},
+    {"municipality": "Arjunchaupari", "ward": "5", "station": "Kalika Basic School, Mulabari", "code": "2869", "voters": "872", "range": "S.No. 1 to 872", "lat": 28.122233, "lng": 83.721162},
+    {"municipality": "Arjunchaupari", "ward": "6", "station": "Gaunpharka Janhit Basic School, Kulebari", "code": "2845", "voters": "869", "range": "S.No. 1 to 869", "lat": 28.123345, "lng": 83.780695},
+    {"municipality": "Arjunchaupari", "ward": "6", "station": "Jan Vikas Basic School, Siudbari", "code": "2849", "voters": "782", "range": "S.No. 1 to 782", "lat": 28.126588, "lng": 83.806689},
+    {"municipality": "Arjunchaupari", "ward": "6", "station": "Darau Ma.Vi., Darau", "code": "2852", "voters": "589", "range": "S.No. 1 to 589", "lat": 28.109425, "lng": 83.787657},
+    {"municipality": "Arjunchaupari", "ward": "6", "station": "Rashtriya A.Vi., Tamakhabari", "code": "10234", "voters": "434", "range": "S.No. 1 to 434", "lat": 28.112029, "lng": 83.803119},
+    {"municipality": "Aandhikhola", "ward": "1", "station": "Trishahid Ma.Vi., Panchhmul (Ka)", "code": "2853", "voters": "868", "range": "S.No. 1 to 868", "lat": 28.144095, "lng": 83.756005},
+    {"municipality": "Aandhikhola", "ward": "1", "station": "Trishahid Ma.Vi., Panchhmul (Kha)", "code": "", "voters": "920", "range": "S.No. 869 to 1788", "lat": 28.144508, "lng": 83.755026},
+    {"municipality": "Aandhikhola", "ward": "1", "station": "Gaunpharka Basic School, Dhadhu (Ka)", "code": "2854", "voters": "532", "range": "S.No. 1 to 532", "lat": 28.138416, "lng": 83.762478},
+    {"municipality": "Aandhikhola", "ward": "1", "station": "Gaunpharka Basic School, Dhadhu (Kha)", "code": "", "voters": "581", "range": "S.No. 533 to 1113", "lat": 28.140343, "lng": 83.762535},
+    {"municipality": "Aandhikhola", "ward": "1", "station": "Janhit Ma.Vi., Majhakateri", "code": "2859", "voters": "740", "range": "S.No. 1 to 740", "lat": 28.131297, "lng": 83.768391},
+    {"municipality": "Aandhikhola", "ward": "2", "station": "Jana Pradip Ma.Vi., Duipiple (Ka)", "code": "2565", "voters": "672", "range": "S.No. 1 to 672", "lat": 28.16737, "lng": 83.7844},
+    {"municipality": "Aandhikhola", "ward": "2", "station": "Jana Pradip Ma.Vi., Duipiple (Kha)", "code": "", "voters": "709", "range": "S.No. 673 to 1381", "lat": 28.168654, "lng": 83.783601},
+    {"municipality": "Aandhikhola", "ward": "2", "station": "Dahare Basic School, Ukhabari", "code": "2569", "voters": "698", "range": "S.No. 1 to 698", "lat": 28.159733, "lng": 83.80296},
+    {"municipality": "Aandhikhola", "ward": "2", "station": "Chilaunebas Health Post, Chilaunebas", "code": "11674", "voters": "875", "range": "S.No. 1 to 875", "lat": 28.160531, "lng": 83.771283},
+    {"municipality": "Aandhikhola", "ward": "3", "station": "Rashtriya Ma.Vi., Puwadanda (Ka)", "code": "2557", "voters": "840", "range": "S.No. 1 to 840", "lat": 28.18646, "lng": 83.771844},
+    {"municipality": "Aandhikhola", "ward": "3", "station": "Rashtriya Ma.Vi., Puwadanda (Kha)", "code": "", "voters": "841", "range": "S.No. 841 to 1681", "lat": 28.186979, "lng": 83.772621},
+    {"municipality": "Aandhikhola", "ward": "3", "station": "Andhadhi Prakash Ma.Vi., Athgaure", "code": "2563", "voters": "836", "range": "S.No. 1 to 836", "lat": 28.195115, "lng": 83.776567},
+    {"municipality": "Aandhikhola", "ward": "4", "station": "Sepat Siranchaur Ma.Vi., Sepat", "code": "2586", "voters": "1009", "range": "S.No. 1 to 1009", "lat": 28.181741, "lng": 83.78968},
+    {"municipality": "Aandhikhola", "ward": "4", "station": "Shrawan Ma.Vi., Wangsing Deurali (Ka)", "code": "2589", "voters": "756", "range": "S.No. 1 to 756", "lat": 28.205621, "lng": 83.801511},
+    {"municipality": "Aandhikhola", "ward": "4", "station": "Shrawan Ma.Vi., Wangsing Deurali (Kha)", "code": "", "voters": "803", "range": "S.No. 757 to 1559", "lat": 28.203908, "lng": 83.799922},
+    {"municipality": "Aandhikhola", "ward": "5", "station": "Saraswati Basic School, Setidabhan", "code": "2797", "voters": "858", "range": "S.No. 1 to 858", "lat": 28.170102, "lng": 83.812307},
+    {"municipality": "Aandhikhola", "ward": "5", "station": "Pradhan Paneru Ma.Vi., Rangthethati (Ka)", "code": "2801", "voters": "1008", "range": "S.No. 1 to 1008", "lat": 28.157591, "lng": 83.833709},
+    {"municipality": "Aandhikhola", "ward": "5", "station": "Pradhan Paneru Ma.Vi., Rangthethati (Kha)", "code": "", "voters": "1031", "range": "S.No. 1009 to 2039", "lat": 28.159098, "lng": 83.834137},
+    {"municipality": "Aandhikhola", "ward": "6", "station": "Laxmi Basic School, Dhakaldanda", "code": "2802", "voters": "610", "range": "S.No. 1 to 610", "lat": 28.149735, "lng": 83.819957},
+    {"municipality": "Aandhikhola", "ward": "6", "station": "Bhagwati Ma.Vi., Lamiswara Ninuwabot (Ka)", "code": "2832", "voters": "588", "range": "S.No. 1 to 588", "lat": 28.134582, "lng": 83.842051},
+    {"municipality": "Aandhikhola", "ward": "6", "station": "Bhagwati Ma.Vi., Lamiswara Ninuwabot (Kha)", "code": "", "voters": "605", "range": "S.No. 589 to 1193", "lat": 28.132812, "lng": 83.842626},
+    {"municipality": "Aandhikhola", "ward": "6", "station": "Sharada Temple Ma.Vi., Tikaja (Ka)", "code": "2835", "voters": "588", "range": "S.No. 1 to 588", "lat": 28.13742, "lng": 83.810272},
+    {"municipality": "Aandhikhola", "ward": "6", "station": "Sharada Temple Ma.Vi., Tikaja (Kha)", "code": "", "voters": "619", "range": "S.No. 589 to 1207", "lat": 28.138409, "lng": 83.810297},
+    {"municipality": "Putalibazar", "ward": "1", "station": "Tribhuwan Adarsh Ma.Vi. Syanjabazar (Ka)", "code": "2745", "voters": "840", "range": "S.No. 1 to 840", "lat": 28.069215, "lng": 83.818768},
+    {"municipality": "Putalibazar", "ward": "1", "station": "Tribhuwan Adarsh Ma.Vi. Syanjabazar (Kha)", "code": "", "voters": "868", "range": "S.No. 841 to 1708", "lat": 28.070144, "lng": 83.818302},
+    {"municipality": "Putalibazar", "ward": "1", "station": "Tribhuwan Adarsh Ma.Vi. Syanjabazar (Ga)", "code": "", "voters": "891", "range": "S.No. 1709 to 2599", "lat": 28.069422, "lng": 83.818149},
+    {"municipality": "Putalibazar", "ward": "2", "station": "Barahaguthi Basic School, Chidwa", "code": "2732", "voters": "967", "range": "S.No. 1 to 967", "lat": 28.092325, "lng": 83.886789},
+    {"municipality": "Putalibazar", "ward": "2", "station": "Thumkidanda Temple, Kusunde (Ka)", "code": "2749", "voters": "672", "range": "S.No. 1 to 672", "lat": 28.078791, "lng": 83.895022},
+    {"municipality": "Putalibazar", "ward": "2", "station": "Thumkidanda Temple, Kusunde (Kha)", "code": "", "voters": "687", "range": "S.No. 673 to 1359", "lat": 28.07977, "lng": 83.894933},
+    {"municipality": "Putalibazar", "ward": "3", "station": "Punyashila Basic School, Nirabire (Ka)", "code": "2752", "voters": "728", "range": "S.No. 1 to 728", "lat": 28.125526, "lng": 83.888342},
+    {"municipality": "Putalibazar", "ward": "3", "station": "Punyashila Basic School, Nirabire (Kha)", "code": "", "voters": "765", "range": "S.No. 729 to 1493", "lat": 28.124908, "lng": 83.889052},
+    {"municipality": "Putalibazar", "ward": "3", "station": "Saraswati Ma.Vi., Gairikhet (Ka)", "code": "2757", "voters": "868", "range": "S.No. 1 to 868", "lat": 28.098697, "lng": 83.875998},
+    {"municipality": "Putalibazar", "ward": "3", "station": "Saraswati Ma.Vi., Gairikhet (Kha)", "code": "", "voters": "870", "range": "S.No. 869 to 1738", "lat": 28.098861, "lng": 83.875697},
+    {"municipality": "Putalibazar", "ward": "3", "station": "Kajiman Haritika Ma.Vi., Putalikhet", "code": "2759", "voters": "951", "range": "S.No. 1 to 951", "lat": 28.090572, "lng": 83.862788},
+    {"municipality": "Putalibazar", "ward": "4", "station": "Ramkosh Phulbari Ma.Vi., Ramkosh (Ka)", "code": "2763", "voters": "672", "range": "S.No. 1 to 672", "lat": 28.121956, "lng": 83.857272},
+    {"municipality": "Putalibazar", "ward": "4", "station": "Ramkosh Phulbari Ma.Vi., Ramkosh (Kha)", "code": "", "voters": "708", "range": "S.No. 673 to 1380", "lat": 28.121252, "lng": 83.858571},
+    {"municipality": "Putalibazar", "ward": "4", "station": "Saraswati Ma.Vi., Nagdanda (Ka)", "code": "2769", "voters": "812", "range": "S.No. 1 to 812", "lat": 28.141174, "lng": 83.871133},
+    {"municipality": "Putalibazar", "ward": "4", "station": "Saraswati Ma.Vi., Nagdanda (Kha)", "code": "", "voters": "830", "range": "S.No. 813 to 1642", "lat": 28.140759, "lng": 83.870952},
+    {"municipality": "Putalibazar", "ward": "5", "station": "Shitala Ma.Vi., Gaude (Ka)", "code": "2649", "voters": "812", "range": "S.No. 1 to 812", "lat": 28.141526, "lng": 83.931513},
+    {"municipality": "Putalibazar", "ward": "5", "station": "Shitala Ma.Vi., Gaude (Kha)", "code": "", "voters": "826", "range": "S.No. 813 to 1638", "lat": 28.140568, "lng": 83.932692},
+    {"municipality": "Putalibazar", "ward": "5", "station": "Jana Jyoti Basic School, Bhrikuna", "code": "2651", "voters": "700", "range": "S.No. 1 to 700", "lat": 28.137482, "lng": 83.901919},
+    {"municipality": "Putalibazar", "ward": "5", "station": "Saraswati Basic School, Katuyechaur", "code": "2653", "voters": "661", "range": "S.No. 1 to 661", "lat": 28.124474, "lng": 83.91052},
+    {"municipality": "Putalibazar", "ward": "6", "station": "Shishu Kalyan Jana Priya Secondary School, Dangling Kaule", "code": "2662", "voters": "730", "range": "S.No. 1 to 730", "lat": 28.124664, "lng": 83.950018},
+    {"municipality": "Putalibazar", "ward": "6", "station": "Himalaya Ma.Vi. Khalanga", "code": "2663", "voters": "940", "range": "S.No. 1 to 940", "lat": 28.140746, "lng": 83.976251},
+    {"municipality": "Putalibazar", "ward": "6", "station": "Durga Bhagwati Basic School, Rayale", "code": "2669", "voters": "644", "range": "S.No. 1 to 644", "lat": 28.118982, "lng": 83.984767},
+    {"municipality": "Putalibazar", "ward": "7", "station": "Janata Ma.Vi., Thuladihi (Ka)", "code": "2674", "voters": "784", "range": "S.No. 1 to 784", "lat": 28.107742, "lng": 83.925471},
+    {"municipality": "Putalibazar", "ward": "7", "station": "Janata Ma.Vi., Thuladihi (Kha)", "code": "", "voters": "812", "range": "S.No. 785 to 1596", "lat": 28.106988, "lng": 83.924811},
+    {"municipality": "Putalibazar", "ward": "7", "station": "Janata Ma.Vi., Thuladihi (Ga)", "code": "", "voters": "812", "range": "S.No. 1597 to 2408", "lat": 28.108206, "lng": 83.923906},
+    {"municipality": "Putalibazar", "ward": "7", "station": "Sharada Ma.Vi., Lumchak Chapkhor Danda", "code": "2677", "voters": "1040", "range": "S.No. 1 to 1040", "lat": 28.101659, "lng": 83.961083},
+    {"municipality": "Putalibazar", "ward": "8", "station": "Janata Basic School, Ramaniya Danda", "code": "2682", "voters": "716", "range": "S.No. 1 to 716", "lat": 28.088529, "lng": 83.903301},
+    {"municipality": "Putalibazar", "ward": "8", "station": "Nuwakot Ma.Vi., Bhandyang (Ka)", "code": "2684", "voters": "644", "range": "S.No. 1 to 644", "lat": 28.097846, "lng": 83.928965},
+    {"municipality": "Putalibazar", "ward": "8", "station": "Nuwakot Ma.Vi., Bhandyang (Kha)", "code": "", "voters": "696", "range": "S.No. 645 to 1340", "lat": 28.097117, "lng": 83.92981},
+    {"municipality": "Putalibazar", "ward": "9", "station": "Jana Vikas Basic School, Naunche", "code": "2688", "voters": "849", "range": "S.No. 1 to 849", "lat": 28.083939, "lng": 83.925287},
+    {"municipality": "Putalibazar", "ward": "9", "station": "Kolma Barahchaur Ma.Vi., Kolma Barahchaur", "code": "2689", "voters": "1052", "range": "S.No. 1 to 1052", "lat": 28.079815, "lng": 83.952568},
+    {"municipality": "Putalibazar", "ward": "10", "station": "Chakramala Basic School, Rangkhola Bazar (Ka)", "code": "2790", "voters": "784", "range": "S.No. 1 to 784", "lat": 28.079429, "lng": 83.853588},
+    {"municipality": "Putalibazar", "ward": "10", "station": "Chakramala Basic School, Rangkhola Bazar (Kha)", "code": "", "voters": "812", "range": "S.No. 785 to 1596", "lat": 28.079694, "lng": 83.852544},
+    {"municipality": "Putalibazar", "ward": "10", "station": "Chakramala Basic School, Rangkhola Bazar (Ga)", "code": "", "voters": "816", "range": "S.No. 1597 to 2412", "lat": 28.079883, "lng": 83.85346},
+    {"municipality": "Putalibazar", "ward": "11", "station": "Divya Gyan Community Basic School, Uniyachaur (Ka)", "code": "2794", "voters": "784", "range": "S.No. 1 to 784", "lat": 28.078557, "lng": 83.839413},
+    {"municipality": "Putalibazar", "ward": "11", "station": "Divya Gyan Community Basic School, Uniyachaur (Kha)", "code": "", "voters": "784", "range": "S.No. 785 to 1568", "lat": 28.07982, "lng": 83.83933},
+    {"municipality": "Putalibazar", "ward": "11", "station": "Divya Gyan Community Basic School, Uniyachaur (Ga)", "code": "", "voters": "786", "range": "S.No. 1569 to 2354", "lat": 28.079843, "lng": 83.839219},
+    {"municipality": "Putalibazar", "ward": "12", "station": "Manakamana Ma.Vi., Pelkachaur (Ka)", "code": "2883", "voters": "644", "range": "S.No. 1 to 644", "lat": 28.054887, "lng": 83.835494},
+    {"municipality": "Putalibazar", "ward": "12", "station": "Manakamana Ma.Vi., Pelkachaur (Kha)", "code": "", "voters": "677", "range": "S.No. 645 to 1321", "lat": 28.054999, "lng": 83.835567},
+    {"municipality": "Putalibazar", "ward": "12", "station": "Janata Basic School, Simle", "code": "2890", "voters": "304", "range": "S.No. 1 to 304", "lat": 28.046272, "lng": 83.846498},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Jana Priya Basic School, Karabuje (Ka)", "code": "2780", "voters": "588", "range": "S.No. 1 to 588", "lat": 28.093129, "lng": 83.80004},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Jana Priya Basic School, Karabuje (Kha)", "code": "", "voters": "631", "range": "S.No. 589 to 1219", "lat": 28.091455, "lng": 83.80051},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Matribhumi Ma.Vi., Sataha Hatiya (Ka)", "code": "2786", "voters": "840", "range": "S.No. 1 to 840", "lat": 28.099994, "lng": 83.834051},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Matribhumi Ma.Vi., Sataha Hatiya (Kha)", "code": "", "voters": "868", "range": "S.No. 841 to 1708", "lat": 28.100432, "lng": 83.833757},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Matribhumi Ma.Vi., Sataha Hatiya (Ga)", "code": "", "voters": "868", "range": "S.No. 1709 to 2576", "lat": 28.100796, "lng": 83.834182},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Shanti Priya Basic School Gairi Pokhari (Ka)", "code": "9928", "voters": "672", "range": "S.No. 1 to 672", "lat": 28.103492, "lng": 83.810551},
+    {"municipality": "Putalibazar", "ward": "13", "station": "Shanti Priya Basic School Gairi Pokhari (Kha)", "code": "", "voters": "679", "range": "S.No. 673 to 1351", "lat": 28.104051, "lng": 83.809315},
+    {"municipality": "Putalibazar", "ward": "14", "station": "Rajasthal Ma.Vi., Satau (Ka)", "code": "2771", "voters": "980", "range": "S.No. 1 to 980", "lat": 28.121456, "lng": 83.828981},
+    {"municipality": "Putalibazar", "ward": "14", "station": "Rajasthal Ma.Vi., Satau (Kha)", "code": "", "voters": "1006", "range": "S.No. 981 to 1986", "lat": 28.122139, "lng": 83.829451},
+    {"municipality": "Putalibazar", "ward": "14", "station": "Shrawan Ma.Vi. Lamage (Ka)", "code": "2776", "voters": "812", "range": "S.No. 1 to 812", "lat": 28.105982, "lng": 83.855142},
+    {"municipality": "Putalibazar", "ward": "14", "station": "Shrawan Ma.Vi. Lamage (Kha)", "code": "", "voters": "840", "range": "S.No. 813 to 1652", "lat": 28.105686, "lng": 83.855425},
+    {"municipality": "Putalibazar", "ward": "14", "station": "Shrawan Ma.Vi. Lamage (Ga)", "code": "", "voters": "844", "range": "S.No. 1653 to 2496", "lat": 28.104876, "lng": 83.854584},
+    {"municipality": "Phedikhola", "ward": "1", "station": "Damgade Ma.Vi., Damgade (Ka)", "code": "2647", "voters": "812", "range": "S.No. 1 to 812", "lat": 28.172406, "lng": 83.89726},
+    {"municipality": "Phedikhola", "ward": "1", "station": "Damgade Ma.Vi., Damgade (Kha)", "code": "", "voters": "812", "range": "S.No. 813 to 1624", "lat": 28.171626, "lng": 83.898628},
+    {"municipality": "Phedikhola", "ward": "1", "station": "Damgade Ma.Vi., Damgade (Ga)", "code": "", "voters": "862", "range": "S.No. 1625 to 2486", "lat": 28.171145, "lng": 83.897564},
+    {"municipality": "Phedikhola", "ward": "2", "station": "Jana Sahayog Community Basic School, Syanchaur", "code": "2645", "voters": "541", "range": "S.No. 1 to 541", "lat": 28.17442, "lng": 83.879304},
+    {"municipality": "Phedikhola", "ward": "2", "station": "Siddhartha Ma.Vi., Phedikhola (Ka)", "code": "2646", "voters": "868", "range": "S.No. 1 to 868", "lat": 28.150302, "lng": 83.884758},
+    {"municipality": "Phedikhola", "ward": "2", "station": "Siddhartha Ma.Vi., Phedikhola (Kha)", "code": "", "voters": "868", "range": "S.No. 869 to 1736", "lat": 28.14927, "lng": 83.883122},
+    {"municipality": "Phedikhola", "ward": "2", "station": "Siddhartha Ma.Vi., Phedikhola (Ga)", "code": "", "voters": "896", "range": "S.No. 1737 to 2632", "lat": 28.150407, "lng": 83.883795},
+    {"municipality": "Phedikhola", "ward": "2", "station": "Siddhartha Ma.Vi., Phedikhola (Gha)", "code": "", "voters": "896", "range": "S.No. 2633 to 3528", "lat": 28.149483, "lng": 83.883146},
+    {"municipality": "Phedikhola", "ward": "3", "station": "Sharada Ramaniya Danda Basic School, Pulakomukh", "code": "2603", "voters": "836", "range": "S.No. 1 to 836", "lat": 28.17177, "lng": 83.843565},
+    {"municipality": "Phedikhola", "ward": "3", "station": "Jana Priya Ma.Vi., Parikabari (Ka)", "code": "2607", "voters": "588", "range": "S.No. 1 to 588", "lat": 28.160607, "lng": 83.857553},
+    {"municipality": "Phedikhola", "ward": "3", "station": "Jana Priya Ma.Vi., Parikabari (Kha)", "code": "", "voters": "606", "range": "S.No. 589 to 1194", "lat": 28.160006, "lng": 83.858325},
+    {"municipality": "Phedikhola", "ward": "4", "station": "Sitala Ma.Vi., Galem", "code": "2639", "voters": "865", "range": "S.No. 1 to 865", "lat": 28.20214, "lng": 83.841313},
+    {"municipality": "Phedikhola", "ward": "4", "station": "Jana Adarsha Ma.Vi., Sherbazar (Ka)", "code": "2640", "voters": "812", "range": "S.No. 1 to 812", "lat": 28.182897, "lng": 83.855091},
+    {"municipality": "Phedikhola", "ward": "4", "station": "Jana Adarsha Ma.Vi., Sherbazar (Kha)", "code": "", "voters": "829", "range": "S.No. 813 to 1641", "lat": 28.183179, "lng": 83.855154},
+    {"municipality": "Phedikhola", "ward": "4", "station": "Adhkharka Basic School, Tokre", "code": "2642", "voters": "637", "range": "S.No. 1 to 637", "lat": 28.19699, "lng": 83.870687},
+    {"municipality": "Phedikhola", "ward": "5", "station": "Barahi Basic School, Samaresh", "code": "2595", "voters": "324", "range": "S.No. 1 to 324", "lat": 28.187614, "lng": 83.830517},
+    {"municipality": "Phedikhola", "ward": "5", "station": "Maidan Ma.Vi., Maidan", "code": "2598", "voters": "897", "range": "S.No. 1 to 897", "lat": 28.192858, "lng": 83.813414},
+    {"municipality": "Bhirkot", "ward": "1", "station": "Raniraha Basic School, Lamachaur", "code": "3079", "voters": "819", "range": "S.No. 1 to 819", "lat": 28.056078, "lng": 83.806038},
+    {"municipality": "Bhirkot", "ward": "1", "station": "Bhirkot Municipality Ward No. 1 Office, Bayarghari (Ka)", "code": "10229", "voters": "672", "range": "S.No. 1 to 672", "lat": 28.057355, "lng": 83.80421},
+    {"municipality": "Bhirkot", "ward": "1", "station": "Bhirkot Municipality Ward No. 1 Office, Bayarghari (Kha)", "code": "", "voters": "692", "range": "S.No. 673 to 1364", "lat": 28.056435, "lng": 83.80471},
+    {"municipality": "Bhirkot", "ward": "2", "station": "Krishi Sewa Kendra, Bayarghari (Ka)", "code": "3084", "voters": "644", "range": "S.No. 1 to 644", "lat": 28.029156, "lng": 83.790021},
+    {"municipality": "Bhirkot", "ward": "2", "station": "Krishi Sewa Kendra, Bayarghari (Kha)", "code": "", "voters": "665", "range": "S.No. 645 to 1309", "lat": 28.030801, "lng": 83.788905},
+    {"municipality": "Bhirkot", "ward": "2", "station": "Dhruwa Deurali Basic School, Balamadanda Kegha", "code": "3089", "voters": "995", "range": "S.No. 1 to 995", "lat": 28.031374, "lng": 83.791206},
+    {"municipality": "Bhirkot", "ward": "3", "station": "Kalika Secondary School, Bheterpata", "code": "2894", "voters": "1036", "range": "S.No. 1 to 1036", "lat": 28.035733, "lng": 83.829573},
+    {"municipality": "Bhirkot", "ward": "3", "station": "Shahid Shukra Ma.Vi., Bastra Deurali", "code": "2897", "voters": "1046", "range": "S.No. 1 to 1046", "lat": 28.033723, "lng": 83.828671},
+    {"municipality": "Bhirkot", "ward": "3", "station": "Jana Jyoti Secondary School, Syanichaur Gumadi", "code": "2901", "voters": "1028", "range": "S.No. 1 to 1028", "lat": 28.034835, "lng": 83.831901},
+    {"municipality": "Bhirkot", "ward": "4", "station": "Chhangchhangdi Basic School, Chhangchhangdi", "code": "3070", "voters": "818", "range": "S.No. 1 to 818", "lat": 28.020147, "lng": 83.791202},
+    {"municipality": "Bhirkot", "ward": "4", "station": "Dabhungthati Ma.Vi., Dabhungthati", "code": "3074", "voters": "566", "range": "S.No. 1 to 566", "lat": 28.017142, "lng": 83.780769},
+    {"municipality": "Waling", "ward": "3", "station": "Majhakot Shivalaya Ma.Vi., Majhakot", "code": "2905", "voters": "845", "range": "S.No. 1 to 845", "lat": 28.013174, "lng": 83.84133},
+    {"municipality": "Waling", "ward": "3", "station": "Balrun Basic School, Koldanda", "code": "2908", "voters": "701", "range": "S.No. 1 to 701", "lat": 28.014344, "lng": 83.841723},
+    {"municipality": "Waling", "ward": "4", "station": "Jethkanya Basic School, Eladi (Ka)", "code": "2959", "voters": "560", "range": "S.No. 1 to 560", "lat": 27.997954, "lng": 83.849567},
+    {"municipality": "Waling", "ward": "4", "station": "Jethkanya Basic School, Eladi (Kha)", "code": "", "voters": "600", "range": "S.No. 561 to 1160", "lat": 27.997526, "lng": 83.848524},
+    {"municipality": "Waling", "ward": "4", "station": "Janhit Basic School, Paudure", "code": "2962", "voters": "750", "range": "S.No. 1 to 750", "lat": 27.998196, "lng": 83.849828},
+    {"municipality": "Waling", "ward": "4", "station": "Kusundanda A.Vi., Chihare", "code": "10231", "voters": "613", "range": "S.No. 1 to 613", "lat": 27.997731, "lng": 83.849272},
+    {"municipality": "Biruwa", "ward": "1", "station": "Nava Jyoti Ma.Vi., Biruwa (Ka)", "code": "12034", "voters": "784", "range": "S.No. 1 to 784", "lat": 28.033694, "lng": 83.897359},
+    {"municipality": "Biruwa", "ward": "1", "station": "Nava Jyoti Ma.Vi., Biruwa (Kha)", "code": "", "voters": "806", "range": "S.No. 785 to 1590", "lat": 28.032834, "lng": 83.897328},
+    {"municipality": "Biruwa", "ward": "2", "station": "Jamune Danda Ma.Vi., Jamune Danda (Ka)", "code": "2873", "voters": "756", "range": "S.No. 1 to 756", "lat": 28.046688, "lng": 83.880406},
+    {"municipality": "Biruwa", "ward": "2", "station": "Jamune Danda Ma.Vi., Jamune Danda (Kha)", "code": "", "voters": "780", "range": "S.No. 757 to 1536", "lat": 28.047384, "lng": 83.879172},
+    {"municipality": "Biruwa", "ward": "2", "station": "Tulsichaur Basic School, Gaukha", "code": "2887", "voters": "301", "range": "S.No. 1 to 301", "lat": 28.05497, "lng": 83.857941},
+    {"municipality": "Biruwa", "ward": "3", "station": "Shiddha Mandali Basic School, Khali (Ka)", "code": "2736", "voters": "700", "range": "S.No. 1 to 700", "lat": 28.06305, "lng": 83.883892},
+    {"municipality": "Biruwa", "ward": "3", "station": "Shiddha Mandali Basic School, Khali (Kha)", "code": "", "voters": "735", "range": "S.No. 701 to 1435", "lat": 28.062626, "lng": 83.884257},
+    {"municipality": "Biruwa", "ward": "3", "station": "Dhowadi Bhandyang Basic School, Dhowadi Bhandyang", "code": "2740", "voters": "489", "range": "S.No. 1 to 489", "lat": 28.06347, "lng": 83.896156},
+    {"municipality": "Biruwa", "ward": "4", "station": "Divya Prakash Ma.Vi., Saunepani (Ka)", "code": "2726", "voters": "616", "range": "S.No. 1 to 616", "lat": 28.048883, "lng": 83.908943},
+    {"municipality": "Biruwa", "ward": "4", "station": "Divya Prakash Ma.Vi., Saunepani (Kha)", "code": "", "voters": "637", "range": "S.No. 617 to 1253", "lat": 28.04763, "lng": 83.908013},
+    {"municipality": "Biruwa", "ward": "4", "station": "Bhavishya Nirman Ma.Vi., Sthangaira (Ka)", "code": "2728", "voters": "728", "range": "S.No. 1 to 728", "lat": 28.065086, "lng": 83.918065},
+    {"municipality": "Biruwa", "ward": "4", "station": "Bhavishya Nirman Ma.Vi., Sthangaira (Kha)", "code": "", "voters": "732", "range": "S.No. 729 to 1460", "lat": 28.064646, "lng": 83.918924},
+    {"municipality": "Biruwa", "ward": "4", "station": "Khudi Basic School, Khorthape", "code": "2729", "voters": "841", "range": "S.No. 1 to 841", "lat": 28.058401, "lng": 83.933655},
+    {"municipality": "Biruwa", "ward": "5", "station": "Kichanas Basic School, Nagasthan", "code": "2693", "voters": "886", "range": "S.No. 1 to 886", "lat": 28.012332, "lng": 83.926568},
+    {"municipality": "Biruwa", "ward": "5", "station": "Devvani Basic School, Devisthan (Ka)", "code": "2696", "voters": "588", "range": "S.No. 1 to 588", "lat": 28.008, "lng": 83.909165},
+    {"municipality": "Biruwa", "ward": "5", "station": "Devvani Basic School, Devisthan (Kha)", "code": "", "voters": "602", "range": "S.No. 589 to 1190", "lat": 28.007929, "lng": 83.909928},
+    {"municipality": "Biruwa", "ward": "6", "station": "Jana Jagriti Basic School, Khanigaun", "code": "2923", "voters": "849", "range": "S.No. 1 to 849", "lat": 27.989408, "lng": 83.913438},
+    {"municipality": "Biruwa", "ward": "6", "station": "Jana Priya Ma.Vi., Chittebas (Ka)", "code": "2927", "voters": "588", "range": "S.No. 1 to 588", "lat": 27.960854, "lng": 83.887436},
+    {"municipality": "Biruwa", "ward": "6", "station": "Jana Priya Ma.Vi., Chittebas (Kha)", "code": "", "voters": "639", "range": "S.No. 589 to 1227", "lat": 27.959635, "lng": 83.885706},
+    {"municipality": "Biruwa", "ward": "7", "station": "Jivan Jyoti Ma.Vi., Kumumbhandyang (Ka)", "code": "2914", "voters": "1008", "range": "S.No. 1 to 1008", "lat": 27.989793, "lng": 83.87044},
+    {"municipality": "Biruwa", "ward": "7", "station": "Jivan Jyoti Ma.Vi., Kumumbhandyang (Kha)", "code": "", "voters": "1021", "range": "S.No. 1009 to 2029", "lat": 27.989127, "lng": 83.86961},
+    {"municipality": "Biruwa", "ward": "8", "station": "Chaitanya Bhavani Basic School, Tallu Bhandyang", "code": "2918", "voters": "964", "range": "S.No. 1 to 964", "lat": 28.022353, "lng": 83.879006},
+    {"municipality": "Biruwa", "ward": "8", "station": "Bhrung Chauki Ma.Vi., Methabhrung", "code": "10235", "voters": "1042", "range": "S.No. 1 to 1042", "lat": 28.000212, "lng": 83.892849},
+    {"municipality": "Harinas", "ward": "1", "station": "Bhojprakash Ma.Vi. Saldanda (Ka)", "code": "2707", "voters": "728", "range": "S.No. 1 to 728", "lat": 28.049503, "lng": 83.94157},
+    {"municipality": "Harinas", "ward": "1", "station": "Bhojprakash Ma.Vi. Saldanda (Kha)", "code": "", "voters": "751", "range": "S.No. 729 to 1479", "lat": 28.049575, "lng": 83.942496},
+    {"municipality": "Harinas", "ward": "1", "station": "Thanapati A.Vi., Khairikot", "code": "10236", "voters": "459", "range": "S.No. 1 to 459", "lat": 28.029397, "lng": 83.935456},
+    {"municipality": "Harinas", "ward": "2", "station": "Jana Kalyan Secondary School, Dhyarsingh Bhandyang (Ka)", "code": "2711", "voters": "644", "range": "S.No. 1 to 644", "lat": 28.033223, "lng": 83.981753},
+    {"municipality": "Harinas", "ward": "2", "station": "Jana Kalyan Secondary School, Dhyarsingh Bhandyang (Kha)", "code": "", "voters": "668", "range": "S.No. 645 to 1312", "lat": 28.032846, "lng": 83.980379},
+    {"municipality": "Harinas", "ward": "2", "station": "Mahima Ma.Vi., Chisapani", "code": "2712", "voters": "497", "range": "S.No. 1 to 497", "lat": 28.02262, "lng": 83.999655},
+    {"municipality": "Harinas", "ward": "3", "station": "Kalika A.Vi., Dhupdanda (Ka)", "code": "10237", "voters": "1064", "range": "S.No. 1 to 1064", "lat": 28.012411, "lng": 83.954668},
+    {"municipality": "Harinas", "ward": "3", "station": "Kalika A.Vi., Dhupdanda (Kha)", "code": "", "voters": "1064", "range": "S.No. 1065 to 2128", "lat": 28.011957, "lng": 83.953416},
+    {"municipality": "Harinas", "ward": "4", "station": "Saraswati Basic School, Kulungkhola", "code": "2946", "voters": "282", "range": "S.No. 1 to 282", "lat": 28.003993, "lng": 83.975341},
+    {"municipality": "Harinas", "ward": "4", "station": "Bal Jyoti Basic School Karanswara (Ka)", "code": "2952", "voters": "532", "range": "S.No. 1 to 532", "lat": 27.984994, "lng": 83.954466},
+    {"municipality": "Harinas", "ward": "4", "station": "Bal Jyoti Basic School Karanswara (Kha)", "code": "", "voters": "587", "range": "S.No. 533 to 1119", "lat": 27.985892, "lng": 83.9528},
+    {"municipality": "Harinas", "ward": "4", "station": "4 No. Ward Office, Rodikhola (Ka)", "code": "2954", "voters": "756", "range": "S.No. 1 to 756", "lat": 27.979453, "lng": 83.970673},
+    {"municipality": "Harinas", "ward": "4", "station": "4 No. Ward Office, Rodikhola (Kha)", "code": "", "voters": "759", "range": "S.No. 757 to 1515", "lat": 27.979655, "lng": 83.970832},
+    {"municipality": "Harinas", "ward": "5", "station": "Kalika Deurali Secondary School, Kalwa Deurali (Ka)", "code": "2931", "voters": "812", "range": "S.No. 1 to 812", "lat": 27.976358, "lng": 83.926569},
+    {"municipality": "Harinas", "ward": "5", "station": "Kalika Deurali Secondary School, Kalwa Deurali (Kha)", "code": "", "voters": "854", "range": "S.No. 813 to 1666", "lat": 27.977046, "lng": 83.926223},
+    {"municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Ka)", "code": "2934", "voters": "756", "range": "S.No. 1 to 756", "lat": 27.947131, "lng": 83.927897},
+    {"municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Kha)", "code": "", "voters": "756", "range": "S.No. 757 to 1512", "lat": 27.94759, "lng": 83.92854},
+    {"municipality": "Harinas", "ward": "6", "station": "Pitambar Ma.Vi., Duddi (Ga)", "code": "", "voters": "802", "range": "S.No. 1513 to 2314", "lat": 27.947014, "lng": 83.92915},
+    {"municipality": "Harinas", "ward": "7", "station": "Siddha Basic School, Khaddrithok", "code": "2937", "voters": "1054", "range": "S.No. 1 to 1054", "lat": 27.954919, "lng": 83.955894},
+    {"municipality": "Harinas", "ward": "7", "station": "Amala Bhandyang Ma.Vi., Changsing (Ka)", "code": "2942", "voters": "588", "range": "S.No. 1 to 588", "lat": 27.934015, "lng": 83.94992},
+    {"municipality": "Harinas", "ward": "7", "station": "Amala Bhandyang Ma.Vi., Changsing (Kha)", "code": "", "voters": "610", "range": "S.No. 589 to 1198", "lat": 27.933816, "lng": 83.951327}
 ];
 
-// --- Add new attributes to each station ---
+// Add party and visits data to each station
 pollingStationsData.forEach(station => {
     station.party = getRandomParty();
     station.visits = getRandomVisits();
     station.contacts = generateContacts();
 });
 
-// --- Store all markers for filtering ---
+// --- Global Variables ---
 let allMarkers = [];
 let currentFilters = {
     party: 'all',
@@ -240,22 +270,25 @@ function addMarkersToMap() {
     // Clear existing markers
     allMarkers.forEach(marker => map.removeLayer(marker));
     allMarkers = [];
-
-    pollingStationsData.forEach(function(station) {
-        // Apply filters
-        if (currentFilters.party !== 'all' && station.party !== currentFilters.party) return;
-        if (currentFilters.municipality !== 'all' && station.municipality !== currentFilters.municipality) return;
-        
+    
+    // Filter data
+    const filteredData = pollingStationsData.filter(station => {
+        if (currentFilters.party !== 'all' && station.party !== currentFilters.party) return false;
+        if (currentFilters.municipality !== 'all' && station.municipality !== currentFilters.municipality) return false;
         if (currentFilters.visits !== 'all') {
-            if (currentFilters.visits === 0 && station.visits !== 0) return;
-            if (currentFilters.visits === '1-2' && (station.visits < 1 || station.visits > 2)) return;
-            if (currentFilters.visits === '3+' && station.visits < 3) return;
+            if (currentFilters.visits === 0 && station.visits !== 0) return false;
+            if (currentFilters.visits === '1-2' && (station.visits < 1 || station.visits > 2)) return false;
+            if (currentFilters.visits === '3+' && station.visits < 3) return false;
         }
-        
+        return true;
+    });
+    
+    // Add markers for filtered data
+    filteredData.forEach(station => {
         const icon = createIcon(station.municipality, station.party, station.visits);
         const marker = L.marker([station.lat, station.lng], { icon: icon });
         
-        // Create enhanced popup content
+        // Generate contact HTML
         const contactsHTML = station.contacts.map(contact => `
             <div class="contact-person">
                 <span class="contact-name">${contact.name}</span>
@@ -263,6 +296,7 @@ function addMarkersToMap() {
             </div>
         `).join('');
         
+        // Create popup content
         const popupContent = `
             <div class="custom-popup">
                 <div class="popup-header">
@@ -394,3 +428,7 @@ function updateStatistics() {
 
 // --- Initialize Map ---
 addMarkersToMap();
+
+
+
+
