@@ -12,6 +12,7 @@ body {
     width: 100%;
     min-height: 100vh;
     padding: 0;
+    overflow-x: hidden;
 }
 
 /* Header Styles */
@@ -26,6 +27,8 @@ body {
     position: sticky;
     top: 0;
     z-index: 1000;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 #logo img {
@@ -37,6 +40,7 @@ body {
 #page-title {
     flex-grow: 1;
     text-align: center;
+    min-width: 250px;
 }
 
 #page-title h1 {
@@ -55,6 +59,7 @@ body {
 #header-stats {
     display: flex;
     gap: 20px;
+    flex-wrap: wrap;
 }
 
 .stat-box {
@@ -65,6 +70,7 @@ body {
     padding: 10px 15px;
     border-radius: 8px;
     backdrop-filter: blur(10px);
+    min-width: 120px;
 }
 
 .stat-box i {
@@ -89,7 +95,7 @@ body {
     display: flex;
     gap: 20px;
     padding: 20px;
-    max-width: 1800px;
+    max-width: 1900px;
     margin: 0 auto;
 }
 
@@ -102,6 +108,7 @@ body {
     max-height: calc(100vh - 150px);
     overflow-y: auto;
     padding-right: 10px;
+    flex-shrink: 0;
 }
 
 .left-panel::-webkit-scrollbar {
@@ -278,6 +285,7 @@ body {
     border-radius: 50%;
     border: 2px solid white;
     box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    flex-shrink: 0;
 }
 
 /* Reset Button */
@@ -434,12 +442,14 @@ body {
 .right-panel {
     flex: 1;
     position: relative;
+    min-width: 0;
 }
 
 /* Map Styles */
 #map {
     width: 100%;
     height: calc(100vh - 180px);
+    min-height: 500px;
     border-radius: 12px;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -486,6 +496,7 @@ body {
     border-radius: 50%;
     border: 2px solid white;
     box-shadow: 0 0 3px rgba(0,0,0,0.3);
+    flex-shrink: 0;
 }
 
 /* Custom Popup Styles */
@@ -617,11 +628,13 @@ body {
 }
 
 .footer-content {
-    max-width: 1800px;
+    max-width: 1900px;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
 }
 
 .footer-section {
@@ -631,55 +644,6 @@ body {
 .footer-section i {
     margin-right: 6px;
     color: #ffd700;
-}
-
-/* Responsive Design */
-@media (max-width: 1200px) {
-    .container {
-        flex-direction: column;
-    }
-    
-    .left-panel {
-        width: 100%;
-        max-height: none;
-    }
-    
-    #map {
-        height: 500px;
-    }
-    
-    .map-legend {
-        position: static;
-        margin-top: 15px;
-    }
-}
-
-@media (max-width: 768px) {
-    #header {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    
-    #header-stats {
-        flex-direction: column;
-        width: 100%;
-    }
-    
-    .party-buttons,
-    .municipality-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .stats-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .footer-content {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-    }
 }
 
 /* Leaflet Popup Custom Styling */
@@ -694,4 +658,199 @@ body {
 
 .leaflet-popup-tip {
     background: white;
+}
+
+/* Responsive Design */
+@media (max-width: 1400px) {
+    .container {
+        gap: 15px;
+        padding: 15px;
+    }
+    
+    .left-panel {
+        width: 340px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .container {
+        flex-direction: column;
+    }
+    
+    .left-panel {
+        width: 100%;
+        max-height: none;
+        padding-right: 0;
+    }
+    
+    #map {
+        height: 600px;
+    }
+    
+    .map-legend {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        margin-top: 15px;
+        max-width: 100%;
+    }
+    
+    .right-panel {
+        width: 100%;
+    }
+}
+
+@media (max-width: 992px) {
+    #header {
+        padding: 15px 20px;
+    }
+    
+    #page-title h1 {
+        font-size: 24px;
+    }
+    
+    #logo img {
+        max-width: 150px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    #header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 15px;
+    }
+    
+    #logo {
+        order: 1;
+    }
+    
+    #page-title {
+        order: 2;
+        width: 100%;
+    }
+    
+    #page-title h1 {
+        font-size: 20px;
+    }
+    
+    #page-title p {
+        font-size: 12px;
+    }
+    
+    #header-stats {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-direction: column;
+    }
+    
+    .stat-box {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .left-panel {
+        gap: 15px;
+    }
+    
+    .filter-section,
+    .stats-dashboard,
+    .project-description,
+    .downloads {
+        padding: 15px;
+    }
+    
+    .party-buttons,
+    .municipality-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    #map {
+        height: 500px;
+        border-radius: 8px;
+    }
+    
+    .map-legend {
+        padding: 12px;
+    }
+    
+    .legend-items {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+    }
+    
+    .custom-popup {
+        max-width: 280px;
+    }
+    
+    .popup-info-label {
+        min-width: 80px;
+        font-size: 11px;
+    }
+}
+
+@media (max-width: 480px) {
+    #page-title h1 {
+        font-size: 18px;
+    }
+    
+    #logo img {
+        max-width: 120px;
+    }
+    
+    .party-btn,
+    .visit-btn,
+    .mun-btn {
+        font-size: 11px;
+        padding: 8px 10px;
+    }
+    
+    #map {
+        height: 400px;
+    }
+    
+    .stat-value {
+        font-size: 20px;
+    }
+    
+    .stat-title {
+        font-size: 10px;
+    }
+}
+
+/* Print Styles */
+@media print {
+    #header,
+    #footer,
+    .left-panel {
+        display: none;
+    }
+    
+    .container {
+        padding: 0;
+    }
+    
+    #map {
+        height: 100vh;
+        border-radius: 0;
+    }
 }
