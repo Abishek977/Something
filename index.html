@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Election Campaign Map - Interactive Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Campaign Map</title>
     
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -12,264 +12,245 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Header Section -->
-    <div id="header">
-        <div id="logo">
-            <img src="Image/LOGO1.png" alt="Logo" />
-        </div>
-        <div id="page-title">
-            <h1>Election Campaign Interactive Map</h1>
-            <p>Real-time Campaign Data & Analytics</p>
-        </div>
-        <div id="header-stats">
-            <div class="stat-box">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                    <span class="stat-number" id="total-booths">0</span>
-                    <span class="stat-label">Polling Booths</span>
-                </div>
-            </div>
-            <div class="stat-box">
-                <i class="fas fa-users"></i>
-                <div>
-                    <span class="stat-number" id="total-voters">0</span>
-                    <span class="stat-label">Total Voters</span>
-                </div>
-            </div>
+    <!-- Mobile Header -->
+    <div id="mobile-header">
+        <button id="menu-toggle" class="menu-btn">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1><i class="fas fa-vote-yea"></i> Campaign Map</h1>
+        <div class="header-stats-mobile">
+            <span id="total-booths-mobile">0</span>
+            <span id="total-voters-mobile">0</span>
         </div>
     </div>
 
-    <!-- Main Content Container -->
-    <div class="container">
-        <!-- Left Panel: Controls, Stats & Downloads -->
-        <div class="left-panel">
-            
-            <!-- Filter Controls -->
-            <div class="filter-section">
-                <h3><i class="fas fa-filter"></i> Filters & Controls</h3>
-                
-                <!-- Political Party Filter -->
-                <div class="filter-group">
-                    <label><i class="fas fa-flag"></i> Filter by Political Party:</label>
-                    <div class="party-buttons">
-                        <button class="party-btn active" data-party="all" onclick="filterByParty('all')">
-                            <i class="fas fa-globe"></i> All Parties
-                        </button>
-                        <button class="party-btn surya" data-party="Surya" onclick="filterByParty('Surya')">
-                            <i class="fas fa-sun"></i> Surya
-                        </button>
-                        <button class="party-btn congress" data-party="Congress" onclick="filterByParty('Congress')">
-                            <i class="fas fa-tree"></i> Congress
-                        </button>
-                        <button class="party-btn rsp" data-party="RSP" onclick="filterByParty('RSP')">
-                            <i class="fas fa-star"></i> RSP
-                        </button>
+    <!-- Sliding Menu Panel -->
+    <div id="menu-panel" class="menu-panel">
+        <div class="menu-header">
+            <h2><i class="fas fa-filter"></i> Filters & Stats</h2>
+            <button id="menu-close" class="close-btn">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+
+        <div class="menu-content">
+            <!-- Quick Stats -->
+            <div class="menu-section">
+                <h3><i class="fas fa-chart-bar"></i> Overview</h3>
+                <div class="quick-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <span class="stat-num" id="total-booths">0</span>
+                            <span class="stat-lbl">Booths</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <span class="stat-num" id="total-voters">0</span>
+                            <span class="stat-lbl">Voters</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-fire"></i>
+                        <div>
+                            <span class="stat-num" id="critical-count">0</span>
+                            <span class="stat-lbl">Critical</span>
+                        </div>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div>
+                            <span class="stat-num" id="campaign-progress">0%</span>
+                            <span class="stat-lbl">Progress</span>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Visit Count Filter -->
-                <div class="filter-group">
-                    <label><i class="fas fa-eye"></i> Filter by Visit Count:</label>
-                    <div class="visit-buttons">
-                        <button class="visit-btn active" data-visits="all" onclick="filterByVisits('all')">All Visits</button>
-                        <button class="visit-btn" data-visits="0" onclick="filterByVisits(0)">Not Visited</button>
-                        <button class="visit-btn" data-visits="1-2" onclick="filterByVisits('1-2')">1-2 Visits</button>
-                        <button class="visit-btn" data-visits="3+" onclick="filterByVisits('3+')">3+ Visits</button>
+            <!-- Quick Actions -->
+            <div class="menu-section">
+                <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                <div class="action-grid">
+                    <button class="action-btn priority" onclick="showHighPriorityBooths()">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <span>Priority Booths</span>
+                    </button>
+                    <button class="action-btn unvisited" onclick="showUnvisitedBooths()">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <span>Unvisited</span>
+                    </button>
+                    <button class="action-btn top-voters" onclick="showTopVoterBooths()">
+                        <i class="fas fa-sort-amount-down"></i>
+                        <span>Top Voters</span>
+                    </button>
+                    <button class="action-btn export" onclick="exportCampaignData()">
+                        <i class="fas fa-file-export"></i>
+                        <span>Export Data</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Party Filter -->
+            <div class="menu-section">
+                <h3><i class="fas fa-flag"></i> Party</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-party="all" onclick="filterByParty('all')">
+                        All Parties
+                    </button>
+                    <button class="filter-btn surya" data-party="Surya" onclick="filterByParty('Surya')">
+                        <i class="fas fa-sun"></i> Surya
+                    </button>
+                    <button class="filter-btn congress" data-party="Congress" onclick="filterByParty('Congress')">
+                        <i class="fas fa-hand-peace"></i> Congress
+                    </button>
+                    <button class="filter-btn rsp" data-party="RSP" onclick="filterByParty('RSP')">
+                        <i class="fas fa-flag"></i> RSP
+                    </button>
+                </div>
+            </div>
+
+            <!-- Visit Count Filter -->
+            <div class="menu-section">
+                <h3><i class="fas fa-eye"></i> Visit Status</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-visits="all" onclick="filterByVisits('all')">
+                        All Visits
+                    </button>
+                    <button class="filter-btn urgent" data-visits="0" onclick="filterByVisits(0)">
+                        <i class="fas fa-exclamation"></i> Not Visited
+                    </button>
+                    <button class="filter-btn" data-visits="1-2" onclick="filterByVisits('1-2')">
+                        1-2 Visits
+                    </button>
+                    <button class="filter-btn" data-visits="3+" onclick="filterByVisits('3+')">
+                        3+ Visits
+                    </button>
+                </div>
+            </div>
+
+            <!-- Priority Filter -->
+            <div class="menu-section">
+                <h3><i class="fas fa-star"></i> Priority Level</h3>
+                <div class="filter-buttons">
+                    <button class="filter-btn active" data-priority="all" onclick="filterByPriority('all')">
+                        All Priorities
+                    </button>
+                    <button class="filter-btn urgent" data-priority="critical" onclick="filterByPriority('critical')">
+                        <i class="fas fa-fire"></i> Critical
+                    </button>
+                    <button class="filter-btn" data-priority="high" onclick="filterByPriority('high')">
+                        High
+                    </button>
+                    <button class="filter-btn" data-priority="medium" onclick="filterByPriority('medium')">
+                        Medium
+                    </button>
+                </div>
+            </div>
+
+            <!-- Municipality Filter -->
+            <div class="menu-section">
+                <h3><i class="fas fa-map"></i> Municipality</h3>
+                <div class="filter-buttons municipality">
+                    <button class="filter-btn active" data-mun="all" onclick="filterByMunicipality('all')">
+                        <span class="color-dot rainbow"></span>
+                        All Municipalities
+                    </button>
+                    <button class="filter-btn" data-mun="Arjunchaupari" onclick="filterByMunicipality('Arjunchaupari')">
+                        <span class="color-dot" style="background-color:#FF6B6B;"></span>
+                        Arjunchaupari
+                    </button>
+                    <button class="filter-btn" data-mun="Aandhikhola" onclick="filterByMunicipality('Aandhikhola')">
+                        <span class="color-dot" style="background-color:#4ECDC4;"></span>
+                        Aandhikhola
+                    </button>
+                    <button class="filter-btn" data-mun="Putalibazar" onclick="filterByMunicipality('Putalibazar')">
+                        <span class="color-dot" style="background-color:#45B7D1;"></span>
+                        Putalibazar
+                    </button>
+                    <button class="filter-btn" data-mun="Waling" onclick="filterByMunicipality('Waling')">
+                        <span class="color-dot" style="background-color:#F7B731;"></span>
+                        Waling
+                    </button>
+                    <button class="filter-btn" data-mun="Phedikhola" onclick="filterByMunicipality('Phedikhola')">
+                        <span class="color-dot" style="background-color:#A55EEA;"></span>
+                        Phedikhola
+                    </button>
+                    <button class="filter-btn" data-mun="Bhirkot" onclick="filterByMunicipality('Bhirkot')">
+                        <span class="color-dot" style="background-color:#26DE81;"></span>
+                        Bhirkot
+                    </button>
+                    <button class="filter-btn" data-mun="Biruwa" onclick="filterByMunicipality('Biruwa')">
+                        <span class="color-dot" style="background-color:#FD79A8;"></span>
+                        Biruwa
+                    </button>
+                    <button class="filter-btn" data-mun="Harinas" onclick="filterByMunicipality('Harinas')">
+                        <span class="color-dot" style="background-color:#FC5C65;"></span>
+                        Harinas
+                    </button>
+                </div>
+            </div>
+
+            <!-- Party Progress -->
+            <div class="menu-section">
+                <h3><i class="fas fa-tasks"></i> Party Dominance</h3>
+                <div class="progress-bars">
+                    <div class="progress-item">
+                        <span class="progress-label">Surya</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill surya" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">Congress</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill congress" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">RSP</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill rsp" style="width: 0%">0%</div>
+                        </div>
+                    </div>
+                    <div class="progress-item">
+                        <span class="progress-label">Coverage</span>
+                        <div class="progress-bar">
+                            <div class="progress-fill coverage" style="width: 0%">0%</div>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Municipality Filter -->
-                <div class="filter-group">
-                    <label><i class="fas fa-map"></i> Filter by Municipality:</label>
-                    <div class="municipality-grid">
-                        <button class="mun-btn active" data-mun="all" onclick="filterByMunicipality('all')">
-                            <span class="color-dot" style="background: linear-gradient(135deg, #FF6B6B, #4ECDC4, #45B7D1, #F7B731, #A55EEA, #26DE81, #FD79A8);"></span>
-                            All
-                        </button>
-                        <button class="mun-btn" data-mun="Arjunchaupari" onclick="filterByMunicipality('Arjunchaupari')">
-                            <span class="color-dot" style="background-color:#FF6B6B;"></span>
-                            Arjunchaupari
-                        </button>
-                        <button class="mun-btn" data-mun="Aandhikhola" onclick="filterByMunicipality('Aandhikhola')">
-                            <span class="color-dot" style="background-color:#4ECDC4;"></span>
-                            Aandhikhola
-                        </button>
-                        <button class="mun-btn" data-mun="Putalibazar" onclick="filterByMunicipality('Putalibazar')">
-                            <span class="color-dot" style="background-color:#45B7D1;"></span>
-                            Putalibazar
-                        </button>
-                        <button class="mun-btn" data-mun="Waling" onclick="filterByMunicipality('Waling')">
-                            <span class="color-dot" style="background-color:#F7B731;"></span>
-                            Waling
-                        </button>
-                        <button class="mun-btn" data-mun="Phedikhola" onclick="filterByMunicipality('Phedikhola')">
-                            <span class="color-dot" style="background-color:#A55EEA;"></span>
-                            Phedikhola
-                        </button>
-                        <button class="mun-btn" data-mun="Bhirkot" onclick="filterByMunicipality('Bhirkot')">
-                            <span class="color-dot" style="background-color:#26DE81;"></span>
-                            Bhirkot
-                        </button>
-                        <button class="mun-btn" data-mun="Biruwa" onclick="filterByMunicipality('Biruwa')">
-                            <span class="color-dot" style="background-color:#FD79A8;"></span>
-                            Biruwa
-                        </button>
-                        <button class="mun-btn" data-mun="Harinas" onclick="filterByMunicipality('Harinas')">
-                            <span class="color-dot" style="background-color:#FC5C65;"></span>
-                            Harinas
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Reset Button -->
-                <button class="reset-btn" onclick="resetAllFilters()">
+            <!-- Reset Button -->
+            <div class="menu-section">
+                <button class="reset-btn" onclick="resetFilters()">
                     <i class="fas fa-redo"></i> Reset All Filters
                 </button>
             </div>
-
-            <!-- Statistics Dashboard -->
-            <div class="stats-dashboard">
-                <h3><i class="fas fa-chart-pie"></i> Campaign Statistics</h3>
-                <div class="stats-grid">
-                    <div class="stat-card surya-stat">
-                        <i class="fas fa-sun"></i>
-                        <div class="stat-content">
-                            <span class="stat-value" id="surya-count">0</span>
-                            <span class="stat-title">Surya Booths</span>
-                        </div>
-                    </div>
-                    <div class="stat-card congress-stat">
-                        <i class="fas fa-tree"></i>
-                        <div class="stat-content">
-                            <span class="stat-value" id="congress-count">0</span>
-                            <span class="stat-title">Congress Booths</span>
-                        </div>
-                    </div>
-                    <div class="stat-card rsp-stat">
-                        <i class="fas fa-star"></i>
-                        <div class="stat-content">
-                            <span class="stat-value" id="rsp-count">0</span>
-                            <span class="stat-title">RSP Booths</span>
-                        </div>
-                    </div>
-                    <div class="stat-card visit-stat">
-                        <i class="fas fa-eye"></i>
-                        <div class="stat-content">
-                            <span class="stat-value" id="avg-visits">0</span>
-                            <span class="stat-title">Avg. Visits</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Project Description -->
-            <div class="project-description">
-                <h3><i class="fas fa-info-circle"></i> Project Overview</h3>
-                <p>
-                    This interactive election campaign map provides real-time visualization of polling booth locations across multiple municipalities. The platform includes detailed information about political party dominance, key personnel contacts, and visit tracking for efficient campaign management.
-                </p>
-                <p>
-                    <strong>Key Features:</strong> Party-based filtering, municipality visualization with 7 distinct colors, personnel contact management, visit tracking analytics, and downloadable thematic maps.
-                </p>
-            </div>
-
-            <!-- Download Section -->
-            <div class="downloads">
-                <h3><i class="fas fa-download"></i> Downloads</h3>
-                <ul>
-                    <li>
-                        <span>
-                            <i class="fas fa-file-image"></i>
-                            <a href="Image/Sample for perosn and there phone deatils.png" target="_blank">
-                                Sample Thematic Map (IMG)
-                            </a>
-                        </span>
-                        <a href="MAPS/Layout2.pdf" download class="download-icon" title="Download PDF">
-                            <i class="fas fa-download"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <span>
-                            <i class="fas fa-chart-pie"></i>
-                            <a href="MAPS/Graph_2.jpg" target="_blank">
-                                Facility Type Pie Chart (JPG)
-                            </a>
-                        </span>
-                        <a href="MAPS/Graph 2.jpg" download class="download-icon" title="Download JPG">
-                            <i class="fas fa-download"></i>
-                        </a>
-                    </li>
-                    <li>
-                        <span>
-                            <i class="fas fa-chart-bar"></i>
-                            <a href="MAPS/Graph1.png" target="_blank">
-                                Traffic-Based Graph (PNG)
-                            </a>
-                        </span>
-                        <a href="MAPS/Graph1.png" download class="download-icon" title="Download PNG">
-                            <i class="fas fa-download"></i>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-        <!-- Right Panel: Map Section -->
-        <div class="right-panel">
-            <div id="map"></div>
-            
-            <!-- Legend -->
-            <div class="map-legend">
-                <h4><i class="fas fa-palette"></i> Municipality Legend</h4>
-                <div class="legend-items">
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#FF6B6B;"></span>
-                        <span>Arjunchaupari</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#4ECDC4;"></span>
-                        <span>Aandhikhola</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#45B7D1;"></span>
-                        <span>Putalibazar</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#F7B731;"></span>
-                        <span>Waling</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#A55EEA;"></span>
-                        <span>Phedikhola</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#26DE81;"></span>
-                        <span>Bhirkot</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#FD79A8;"></span>
-                        <span>Biruwa</span>
-                    </div>
-                    <div class="legend-item">
-                        <span class="legend-color" style="background-color:#FC5C65;"></span>
-                        <span>Harinas</span>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 
-    <!-- Footer Section -->
-    <div id="footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <p><i class="fas fa-copyright"></i> 2026 RSP Campaign Dashboard. All rights reserved.</p>
-            </div>
-            <div class="footer-section">
-                <p><i class="fas fa-database"></i> Last Updated: February 2026</p>
-            </div>
-            <div class="footer-section">
-                <p><i class="fas fa-shield-alt"></i> Confidential Campaign Data</p>
+    <!-- Overlay when menu is open -->
+    <div id="menu-overlay" class="menu-overlay"></div>
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Compact Legend -->
+    <div class="map-legend">
+        <button class="legend-toggle">
+            <i class="fas fa-palette"></i>
+        </button>
+        <div class="legend-content">
+            <div class="legend-row">
+                <strong>Size:</strong>
+                <div class="legend-items">
+                    <span class="legend-dot small"></span> Not Visited
+                    <span class="legend-dot medium"></span> 1-2
+                    <span class="legend-dot large"></span> 3+
+                </div>
             </div>
         </div>
     </div>
