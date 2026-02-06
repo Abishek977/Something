@@ -12052,3 +12052,39 @@ document.addEventListener('DOMContentLoaded', function() {
     const now = new Date();
     document.getElementById('last-update').textContent = now.toLocaleTimeString();
 });
+// === HAMBURGER MENU FUNCTIONALITY ===
+(function() {
+    const menuToggle = document.createElement('button');
+    menuToggle.className = 'menu-toggle';
+    menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+    document.body.appendChild(menuToggle);
+    
+    const menuOverlay = document.createElement('div');
+    menuOverlay.className = 'menu-overlay';
+    document.body.appendChild(menuOverlay);
+    
+    const leftPanel = document.querySelector('.left-panel');
+    
+    menuToggle.onclick = function(e) {
+        e.stopPropagation();
+        leftPanel.classList.toggle('active');
+        menuOverlay.classList.toggle('active');
+        this.querySelector('i').className = leftPanel.classList.contains('active') ? 'fas fa-times' : 'fas fa-bars';
+    };
+    
+    menuOverlay.onclick = function() {
+        leftPanel.classList.remove('active');
+        menuOverlay.classList.remove('active');
+        menuToggle.querySelector('i').className = 'fas fa-bars';
+    };
+    
+    leftPanel.onclick = function(e) {
+        if (e.target.tagName === 'BUTTON' && window.innerWidth <= 900) {
+            setTimeout(() => {
+                leftPanel.classList.remove('active');
+                menuOverlay.classList.remove('active');
+                menuToggle.querySelector('i').className = 'fas fa-bars';
+            }, 300);
+        }
+    };
+})();
