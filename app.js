@@ -1,80 +1,4 @@
 // ===============================================
-// MOBILE MENU CONTROLS - ADD TO TOP OF APP.JS
-// ===============================================
-
-// --- Mobile Menu Controls ---
-document.addEventListener('DOMContentLoaded', function() {
-    const menuToggle = document.getElementById('menu-toggle');
-    const menuClose = document.getElementById('menu-close');
-    const menuPanel = document.getElementById('menu-panel');
-    const menuOverlay = document.getElementById('menu-overlay');
-    const legendToggle = document.querySelector('.legend-toggle');
-    const legendContent = document.querySelector('.legend-content');
-    
-    // Open menu
-    if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-            menuPanel.classList.add('open');
-            menuOverlay.classList.add('active');
-            document.body.style.overflow = 'hidden';
-        });
-    }
-    
-    // Close menu
-    function closeMenu() {
-        menuPanel.classList.remove('open');
-        menuOverlay.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-    
-    if (menuClose) {
-        menuClose.addEventListener('click', closeMenu);
-    }
-    
-    if (menuOverlay) {
-        menuOverlay.addEventListener('click', closeMenu);
-    }
-    
-    // Close menu when filter is selected
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('filter-btn') || 
-            e.target.classList.contains('action-btn') ||
-            e.target.closest('.filter-btn') ||
-            e.target.closest('.action-btn')) {
-            setTimeout(closeMenu, 300);
-        }
-    });
-    
-    // Legend toggle
-    if (legendToggle && legendContent) {
-        legendToggle.addEventListener('click', function() {
-            legendContent.classList.toggle('active');
-        });
-    }
-});
-
-// Update stats function to work with both menu and mobile header
-function updateAllStats() {
-    const totalBooths = pollingStationsData.length;
-    const totalVoters = pollingStationsData.reduce((sum, booth) => sum + parseInt(booth.voters), 0);
-    const criticalBooths = pollingStationsData.filter(b => calculatePriority(b.voters, b.visits, b.party, b.demographics.rspVoterPercent) === 'critical').length;
-    
-    // Update mobile header
-    const mobileBoothsEl = document.getElementById('total-booths-mobile');
-    const mobileVotersEl = document.getElementById('total-voters-mobile');
-    if (mobileBoothsEl) mobileBoothsEl.textContent = totalBooths;
-    if (mobileVotersEl) mobileVotersEl.textContent = (totalVoters / 1000).toFixed(0) + 'k';
-    
-    // Update menu stats
-    const menuBoothsEl = document.getElementById('total-booths');
-    const menuVotersEl = document.getElementById('total-voters');
-    const criticalEl = document.getElementById('critical-count');
-    if (menuBoothsEl) menuBoothsEl.textContent = totalBooths;
-    if (menuVotersEl) menuVotersEl.textContent = (totalVoters / 1000).toFixed(0) + 'k';
-    if (criticalEl) criticalEl.textContent = criticalBooths;
-}
-
-// ===============================================
 // ELECTION CAMPAIGN MANAGEMENT SYSTEM  
 // UPDATED WITH COMPREHENSIVE BOOTH DATA
 // ===============================================
@@ -147,15 +71,15 @@ function calculateOppositionStrength(party, voters, rspVoterPercent) {
 
 // ===============================================
 // COMPREHENSIVE BOOTH DATA - ALL 171 BOOTHS
-// WITH DEMOGRAPHICS & KEY PEOPLE
+// WITH DEMOGRAPHICS, KEY PEOPLE & LOCAL ISSUES
 // ===============================================
 // ===============================================
-// COMPLETE DATA TEMPLATE - ALL 171 BOOTHS
-// Easy Data Entry Format
+// UPDATED DATA TEMPLATE - ALL 171 BOOTHS
+// Enhanced with Local Issues and Booth Representatives
 // ===============================================
 
 const pollingStationsData = [
-    // ===== BOOTH #1 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #1 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "1",
@@ -165,13 +89,20 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1064",
         "lat": 28.088265,
         "lng": 83.744582,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 1,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 1,
         "demographics": {
-            "maleVoters": 521,  // UPDATE
-            "femaleVoters": 542,  // UPDATE
-            "youngVoters": 287,  // UPDATE
-            "rspVoterPercent": 33  // UPDATE: 0-100
+            "maleVoters": 521,
+            "femaleVoters": 542,
+            "youngVoters": 287,
+            "rspVoterPercent": 33
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
@@ -180,7 +111,7 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -195,8 +126,8 @@ const pollingStationsData = [
                 "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -215,7 +146,7 @@ const pollingStationsData = [
         ]
     },
 
-    // ===== BOOTH #2 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #2 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "1",
@@ -225,22 +156,29 @@ const pollingStationsData = [
         "range": "S.No. 1065 to 2128",
         "lat": 28.089678,
         "lng": 83.744219,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 2,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 2,
         "demographics": {
-            "maleVoters": 521,  // UPDATE
-            "femaleVoters": 542,  // UPDATE
-            "youngVoters": 287,  // UPDATE
-            "rspVoterPercent": 36  // UPDATE: 0-100
+            "maleVoters": 521,
+            "femaleVoters": 542,
+            "youngVoters": 287,
+            "rspVoterPercent": 36
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_LEADER_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -252,11 +190,11 @@ const pollingStationsData = [
         ],
         "localKeyPeople": [
             {
-                "name": "UPDATE_KEY_PERSON",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -275,7 +213,7 @@ const pollingStationsData = [
         ]
     },
 
-    // ===== BOOTH #3 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #3 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "1",
@@ -285,22 +223,29 @@ const pollingStationsData = [
         "range": "S.No. 2129 to 3207",
         "lat": 28.08868,
         "lng": 83.745727,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 3,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 3,
         "demographics": {
-            "maleVoters": 528,  // UPDATE
-            "femaleVoters": 550,  // UPDATE
-            "youngVoters": 291,  // UPDATE
-            "rspVoterPercent": 39  // UPDATE: 0-100
+            "maleVoters": 528,
+            "femaleVoters": 550,
+            "youngVoters": 291,
+            "rspVoterPercent": 39
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_LEADER_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -312,11 +257,11 @@ const pollingStationsData = [
         ],
         "localKeyPeople": [
             {
-                "name": "UPDATE_KEY_PERSON",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -335,7 +280,7 @@ const pollingStationsData = [
         ]
     },
 
-    // ===== BOOTH #4 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #4 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "2",
@@ -345,22 +290,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1064",
         "lat": 28.084101,
         "lng": 83.773558,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 4,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 4,
         "demographics": {
-            "maleVoters": 521,  // UPDATE
-            "femaleVoters": 542,  // UPDATE
-            "youngVoters": 287,  // UPDATE
-            "rspVoterPercent": 42  // UPDATE: 0-100
+            "maleVoters": 521,
+            "femaleVoters": 542,
+            "youngVoters": 287,
+            "rspVoterPercent": 42
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_LEADER_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -372,11 +324,11 @@ const pollingStationsData = [
         ],
         "localKeyPeople": [
             {
-                "name": "UPDATE_KEY_PERSON",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -395,7 +347,7 @@ const pollingStationsData = [
         ]
     },
 
-    // ===== BOOTH #5 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #5 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "2",
@@ -405,22 +357,29 @@ const pollingStationsData = [
         "range": "S.No. 1065 to 2139",
         "lat": 28.083686,
         "lng": 83.772998,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 5,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 5,
         "demographics": {
-            "maleVoters": 526,  // UPDATE
-            "femaleVoters": 548,  // UPDATE
-            "youngVoters": 290,  // UPDATE
-            "rspVoterPercent": 45  // UPDATE: 0-100
+            "maleVoters": 526,
+            "femaleVoters": 548,
+            "youngVoters": 290,
+            "rspVoterPercent": 45
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_LEADER_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -432,11 +391,11 @@ const pollingStationsData = [
         ],
         "localKeyPeople": [
             {
-                "name": "UPDATE_KEY_PERSON",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -455,7 +414,7 @@ const pollingStationsData = [
         ]
     },
 
-    // ===== BOOTH #6 - COMPLETED EXAMPLE =====
+    // ===== BOOTH #6 =====
     {
         "municipality": "Arjunchaupari",
         "ward": "3",
@@ -465,22 +424,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 517",
         "lat": 28.098717,
         "lng": 83.725123,
-        "party": "RSP",  // UPDATE: Surya/Congress/RSP
-        "visits": 0,  // UPDATE: 0-5+
+        "party": "RSP",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 253,  // UPDATE
-            "femaleVoters": 263,  // UPDATE
-            "youngVoters": 139,  // UPDATE
-            "rspVoterPercent": 48  // UPDATE: 0-100
+            "maleVoters": 253,
+            "femaleVoters": 263,
+            "youngVoters": 139,
+            "rspVoterPercent": 48
+        },
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
         },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_LEADER_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -492,11 +458,11 @@ const pollingStationsData = [
         ],
         "localKeyPeople": [
             {
-                "name": "UPDATE_KEY_PERSON",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "High",  // High/Medium/Low
-                "support": "RSP"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
             },
             {
                 "name": "UPDATE_KEY_PERSON_2",
@@ -525,26 +491,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 728",
         "lat": 28.099719,
         "lng": 83.761239,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -554,14 +523,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -576,26 +558,29 @@ const pollingStationsData = [
         "range": "S.No. 729 to 1483",
         "lat": 28.101285,
         "lng": 83.760048,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -605,14 +590,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -627,26 +625,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 756",
         "lat": 28.115341,
         "lng": 83.74965,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -656,14 +657,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -678,26 +692,29 @@ const pollingStationsData = [
         "range": "S.No. 757 to 1516",
         "lat": 28.114564,
         "lng": 83.749628,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -707,14 +724,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -729,26 +759,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 287",
         "lat": 28.123414,
         "lng": 83.737983,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -758,14 +791,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -780,26 +826,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 929",
         "lat": 28.134957,
         "lng": 83.717233,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -809,14 +858,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -831,26 +893,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 695",
         "lat": 28.133647,
         "lng": 83.741975,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -860,14 +925,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -882,26 +960,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 872",
         "lat": 28.122233,
         "lng": 83.721162,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -911,14 +992,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -933,26 +1027,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 869",
         "lat": 28.123345,
         "lng": 83.780695,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -962,14 +1059,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -984,26 +1094,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 782",
         "lat": 28.126588,
         "lng": 83.806689,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1013,14 +1126,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1035,26 +1161,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 589",
         "lat": 28.109425,
         "lng": 83.787657,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1064,14 +1193,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1086,26 +1228,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 434",
         "lat": 28.112029,
         "lng": 83.803119,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1115,14 +1260,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1137,26 +1295,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 868",
         "lat": 28.144095,
         "lng": 83.756005,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1166,14 +1327,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1188,26 +1362,29 @@ const pollingStationsData = [
         "range": "S.No. 869 to 1788",
         "lat": 28.144508,
         "lng": 83.755026,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1217,14 +1394,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1239,26 +1429,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 532",
         "lat": 28.138416,
         "lng": 83.762478,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1268,14 +1461,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1290,26 +1496,29 @@ const pollingStationsData = [
         "range": "S.No. 533 to 1113",
         "lat": 28.140343,
         "lng": 83.762535,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1319,14 +1528,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1341,26 +1563,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 740",
         "lat": 28.131297,
         "lng": 83.768391,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1370,14 +1595,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1392,26 +1630,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 672",
         "lat": 28.16737,
         "lng": 83.7844,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1421,14 +1662,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1443,26 +1697,29 @@ const pollingStationsData = [
         "range": "S.No. 673 to 1381",
         "lat": 28.168654,
         "lng": 83.783601,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1472,14 +1729,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1494,26 +1764,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 698",
         "lat": 28.159733,
         "lng": 83.80296,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1523,14 +1796,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1545,26 +1831,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 875",
         "lat": 28.160531,
         "lng": 83.771283,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1574,14 +1863,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1596,26 +1898,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 840",
         "lat": 28.18646,
         "lng": 83.771844,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1625,14 +1930,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1647,26 +1965,29 @@ const pollingStationsData = [
         "range": "S.No. 841 to 1681",
         "lat": 28.186979,
         "lng": 83.772621,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1676,14 +1997,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1698,26 +2032,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 836",
         "lat": 28.195115,
         "lng": 83.776567,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1727,14 +2064,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1749,26 +2099,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1009",
         "lat": 28.181741,
         "lng": 83.78968,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1778,14 +2131,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1800,26 +2166,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 756",
         "lat": 28.205621,
         "lng": 83.801511,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1829,14 +2198,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1851,26 +2233,29 @@ const pollingStationsData = [
         "range": "S.No. 757 to 1559",
         "lat": 28.203908,
         "lng": 83.799922,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1880,14 +2265,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1902,26 +2300,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 858",
         "lat": 28.170102,
         "lng": 83.812307,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1931,14 +2332,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -1953,26 +2367,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1008",
         "lat": 28.157591,
         "lng": 83.833709,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -1982,14 +2399,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2004,26 +2434,29 @@ const pollingStationsData = [
         "range": "S.No. 1009 to 2039",
         "lat": 28.159098,
         "lng": 83.834137,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2033,14 +2466,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2055,26 +2501,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 610",
         "lat": 28.149735,
         "lng": 83.819957,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2084,14 +2533,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2106,26 +2568,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 28.134582,
         "lng": 83.842051,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2135,14 +2600,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2157,26 +2635,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1193",
         "lat": 28.132812,
         "lng": 83.842626,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2186,14 +2667,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2208,26 +2702,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 28.13742,
         "lng": 83.810272,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2237,14 +2734,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2259,26 +2769,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1207",
         "lat": 28.138409,
         "lng": 83.810297,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2288,14 +2801,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2310,26 +2836,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 840",
         "lat": 28.069215,
         "lng": 83.818768,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2339,27 +2868,28 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
-                "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
-            },{
-                "name": "UPDATE_KEY_PERSON_2",
+                "name": "UPDATE_KEY_PERSON_1",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",
-                "support": "Neutral"
-            },{
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
                 "name": "UPDATE_KEY_PERSON_2",
                 "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
                 "influence": "Medium",
                 "support": "Neutral"
             },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
+            }
         ]
     },
 
@@ -2373,26 +2903,29 @@ const pollingStationsData = [
         "range": "S.No. 841 to 1708",
         "lat": 28.070144,
         "lng": 83.818302,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2402,14 +2935,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2424,26 +2970,29 @@ const pollingStationsData = [
         "range": "S.No. 1709 to 2599",
         "lat": 28.069422,
         "lng": 83.818149,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2453,14 +3002,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2475,26 +3037,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 967",
         "lat": 28.092325,
         "lng": 83.886789,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2504,14 +3069,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2526,26 +3104,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 672",
         "lat": 28.078791,
         "lng": 83.895022,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2555,14 +3136,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2577,26 +3171,29 @@ const pollingStationsData = [
         "range": "S.No. 673 to 1359",
         "lat": 28.07977,
         "lng": 83.894933,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2606,14 +3203,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2628,26 +3238,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 728",
         "lat": 28.125526,
         "lng": 83.888342,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2657,14 +3270,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2679,26 +3305,29 @@ const pollingStationsData = [
         "range": "S.No. 729 to 1493",
         "lat": 28.124908,
         "lng": 83.889052,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2708,14 +3337,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2730,26 +3372,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 868",
         "lat": 28.098697,
         "lng": 83.875998,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2759,14 +3404,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2781,26 +3439,29 @@ const pollingStationsData = [
         "range": "S.No. 869 to 1738",
         "lat": 28.098861,
         "lng": 83.875697,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2810,14 +3471,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2832,26 +3506,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 951",
         "lat": 28.090572,
         "lng": 83.862788,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2861,14 +3538,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2883,26 +3573,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 672",
         "lat": 28.121956,
         "lng": 83.857272,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2912,14 +3605,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2934,26 +3640,29 @@ const pollingStationsData = [
         "range": "S.No. 673 to 1380",
         "lat": 28.121252,
         "lng": 83.858571,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -2963,14 +3672,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -2985,26 +3707,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 28.141174,
         "lng": 83.871133,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3014,14 +3739,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3036,26 +3774,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1642",
         "lat": 28.140759,
         "lng": 83.870952,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3065,14 +3806,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3087,26 +3841,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 28.141526,
         "lng": 83.931513,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3116,14 +3873,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3138,26 +3908,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1638",
         "lat": 28.140568,
         "lng": 83.932692,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3167,14 +3940,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3189,26 +3975,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 700",
         "lat": 28.137482,
         "lng": 83.901919,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3218,14 +4007,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3240,26 +4042,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 661",
         "lat": 28.124474,
         "lng": 83.91052,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3269,14 +4074,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3291,26 +4109,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 730",
         "lat": 28.124664,
         "lng": 83.950018,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3320,14 +4141,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3342,26 +4176,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 940",
         "lat": 28.140746,
         "lng": 83.976251,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3371,14 +4208,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3393,26 +4243,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 644",
         "lat": 28.118982,
         "lng": 83.984767,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3422,14 +4275,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3444,26 +4310,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 784",
         "lat": 28.107742,
         "lng": 83.925471,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3473,14 +4342,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3495,26 +4377,29 @@ const pollingStationsData = [
         "range": "S.No. 785 to 1596",
         "lat": 28.106988,
         "lng": 83.924811,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3524,14 +4409,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3546,26 +4444,29 @@ const pollingStationsData = [
         "range": "S.No. 1597 to 2408",
         "lat": 28.108206,
         "lng": 83.923906,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3575,14 +4476,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3597,26 +4511,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1040",
         "lat": 28.101659,
         "lng": 83.961083,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3626,14 +4543,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3648,26 +4578,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 716",
         "lat": 28.088529,
         "lng": 83.903301,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3677,14 +4610,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3699,26 +4645,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 644",
         "lat": 28.097846,
         "lng": 83.928965,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3728,14 +4677,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3750,26 +4712,29 @@ const pollingStationsData = [
         "range": "S.No. 645 to 1340",
         "lat": 28.097117,
         "lng": 83.92981,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3779,14 +4744,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3801,26 +4779,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 849",
         "lat": 28.083939,
         "lng": 83.925287,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3830,14 +4811,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3852,26 +4846,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1052",
         "lat": 28.079815,
         "lng": 83.952568,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3881,14 +4878,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3903,26 +4913,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 784",
         "lat": 28.079429,
         "lng": 83.853588,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3932,14 +4945,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -3954,26 +4980,29 @@ const pollingStationsData = [
         "range": "S.No. 785 to 1596",
         "lat": 28.079694,
         "lng": 83.852544,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -3983,14 +5012,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4005,26 +5047,29 @@ const pollingStationsData = [
         "range": "S.No. 1597 to 2412",
         "lat": 28.079883,
         "lng": 83.85346,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4034,14 +5079,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4056,26 +5114,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 784",
         "lat": 28.078557,
         "lng": 83.839413,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4085,14 +5146,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4107,26 +5181,29 @@ const pollingStationsData = [
         "range": "S.No. 785 to 1568",
         "lat": 28.07982,
         "lng": 83.83933,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4136,14 +5213,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4158,26 +5248,29 @@ const pollingStationsData = [
         "range": "S.No. 1569 to 2354",
         "lat": 28.079843,
         "lng": 83.839219,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4187,14 +5280,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4209,26 +5315,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 644",
         "lat": 28.054887,
         "lng": 83.835494,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4238,14 +5347,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4260,26 +5382,29 @@ const pollingStationsData = [
         "range": "S.No. 645 to 1321",
         "lat": 28.054999,
         "lng": 83.835567,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4289,14 +5414,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4311,26 +5449,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 304",
         "lat": 28.046272,
         "lng": 83.846498,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4340,14 +5481,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4362,26 +5516,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 28.093129,
         "lng": 83.80004,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4391,14 +5548,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4413,26 +5583,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1219",
         "lat": 28.091455,
         "lng": 83.80051,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4442,14 +5615,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4464,26 +5650,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 840",
         "lat": 28.099994,
         "lng": 83.834051,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4493,14 +5682,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4515,26 +5717,29 @@ const pollingStationsData = [
         "range": "S.No. 841 to 1708",
         "lat": 28.100432,
         "lng": 83.833757,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4544,14 +5749,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4566,26 +5784,29 @@ const pollingStationsData = [
         "range": "S.No. 1709 to 2576",
         "lat": 28.100796,
         "lng": 83.834182,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4595,14 +5816,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4617,26 +5851,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 672",
         "lat": 28.103492,
         "lng": 83.810551,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4646,14 +5883,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4668,26 +5918,29 @@ const pollingStationsData = [
         "range": "S.No. 673 to 1351",
         "lat": 28.104051,
         "lng": 83.809315,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4697,14 +5950,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4719,26 +5985,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 980",
         "lat": 28.121456,
         "lng": 83.828981,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4748,14 +6017,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4770,26 +6052,29 @@ const pollingStationsData = [
         "range": "S.No. 981 to 1986",
         "lat": 28.122139,
         "lng": 83.829451,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4799,14 +6084,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4821,26 +6119,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 28.105982,
         "lng": 83.855142,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4850,14 +6151,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4872,26 +6186,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1652",
         "lat": 28.105686,
         "lng": 83.855425,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4901,14 +6218,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4923,26 +6253,29 @@ const pollingStationsData = [
         "range": "S.No. 1653 to 2496",
         "lat": 28.104876,
         "lng": 83.854584,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -4952,14 +6285,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -4974,26 +6320,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 28.172406,
         "lng": 83.89726,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5003,14 +6352,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5025,26 +6387,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1624",
         "lat": 28.171626,
         "lng": 83.898628,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5054,14 +6419,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5076,26 +6454,29 @@ const pollingStationsData = [
         "range": "S.No. 1625 to 2486",
         "lat": 28.171145,
         "lng": 83.897564,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5105,14 +6486,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5127,26 +6521,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 541",
         "lat": 28.17442,
         "lng": 83.879304,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5156,14 +6553,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5178,26 +6588,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 868",
         "lat": 28.150302,
         "lng": 83.884758,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5207,14 +6620,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5229,26 +6655,29 @@ const pollingStationsData = [
         "range": "S.No. 869 to 1736",
         "lat": 28.14927,
         "lng": 83.883122,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5258,14 +6687,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5280,26 +6722,29 @@ const pollingStationsData = [
         "range": "S.No. 1737 to 2632",
         "lat": 28.150407,
         "lng": 83.883795,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5309,14 +6754,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5331,26 +6789,29 @@ const pollingStationsData = [
         "range": "S.No. 2633 to 3528",
         "lat": 28.149483,
         "lng": 83.883146,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5360,14 +6821,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5382,26 +6856,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 836",
         "lat": 28.17177,
         "lng": 83.843565,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5411,14 +6888,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5433,26 +6923,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 28.160607,
         "lng": 83.857553,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5462,14 +6955,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5484,26 +6990,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1194",
         "lat": 28.160006,
         "lng": 83.858325,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5513,14 +7022,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5535,26 +7057,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 865",
         "lat": 28.20214,
         "lng": 83.841313,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5564,14 +7089,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5586,26 +7124,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 28.182897,
         "lng": 83.855091,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5615,14 +7156,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5637,26 +7191,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1641",
         "lat": 28.183179,
         "lng": 83.855154,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5666,14 +7223,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5688,26 +7258,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 637",
         "lat": 28.19699,
         "lng": 83.870687,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5717,14 +7290,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5739,26 +7325,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 324",
         "lat": 28.187614,
         "lng": 83.830517,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5768,14 +7357,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5790,26 +7392,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 897",
         "lat": 28.192858,
         "lng": 83.813414,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5819,14 +7424,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5841,26 +7459,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 819",
         "lat": 28.056078,
         "lng": 83.806038,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5870,14 +7491,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5892,26 +7526,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 672",
         "lat": 28.057355,
         "lng": 83.80421,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5921,14 +7558,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5943,26 +7593,29 @@ const pollingStationsData = [
         "range": "S.No. 673 to 1364",
         "lat": 28.056435,
         "lng": 83.80471,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -5972,14 +7625,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -5994,26 +7660,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 644",
         "lat": 28.029156,
         "lng": 83.790021,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6023,14 +7692,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6045,26 +7727,29 @@ const pollingStationsData = [
         "range": "S.No. 645 to 1309",
         "lat": 28.030801,
         "lng": 83.788905,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6074,14 +7759,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6096,26 +7794,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 995",
         "lat": 28.031374,
         "lng": 83.791206,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6125,14 +7826,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6147,26 +7861,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1036",
         "lat": 28.035733,
         "lng": 83.829573,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6176,14 +7893,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6198,26 +7928,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1046",
         "lat": 28.033723,
         "lng": 83.828671,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6227,14 +7960,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6249,26 +7995,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1028",
         "lat": 28.034835,
         "lng": 83.831901,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6278,14 +8027,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6300,26 +8062,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 818",
         "lat": 28.020147,
         "lng": 83.791202,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6329,14 +8094,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6351,26 +8129,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 566",
         "lat": 28.017142,
         "lng": 83.780769,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6380,14 +8161,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6402,26 +8196,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 845",
         "lat": 28.013174,
         "lng": 83.84133,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6431,14 +8228,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6453,26 +8263,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 701",
         "lat": 28.014344,
         "lng": 83.841723,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6482,14 +8295,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6504,26 +8330,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 560",
         "lat": 27.997954,
         "lng": 83.849567,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6533,14 +8362,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6555,26 +8397,29 @@ const pollingStationsData = [
         "range": "S.No. 561 to 1160",
         "lat": 27.997526,
         "lng": 83.848524,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6584,14 +8429,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6606,26 +8464,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 750",
         "lat": 27.998196,
         "lng": 83.849828,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6635,14 +8496,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6657,26 +8531,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 613",
         "lat": 27.997731,
         "lng": 83.849272,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6686,14 +8563,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6708,26 +8598,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 784",
         "lat": 28.033694,
         "lng": 83.897359,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6737,14 +8630,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6759,26 +8665,29 @@ const pollingStationsData = [
         "range": "S.No. 785 to 1590",
         "lat": 28.032834,
         "lng": 83.897328,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6788,14 +8697,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6810,26 +8732,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 756",
         "lat": 28.046688,
         "lng": 83.880406,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6839,14 +8764,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6861,26 +8799,29 @@ const pollingStationsData = [
         "range": "S.No. 757 to 1536",
         "lat": 28.047384,
         "lng": 83.879172,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6890,14 +8831,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6912,26 +8866,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 301",
         "lat": 28.05497,
         "lng": 83.857941,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6941,14 +8898,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -6963,26 +8933,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 700",
         "lat": 28.06305,
         "lng": 83.883892,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -6992,14 +8965,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7014,26 +9000,29 @@ const pollingStationsData = [
         "range": "S.No. 701 to 1435",
         "lat": 28.062626,
         "lng": 83.884257,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7043,14 +9032,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7065,26 +9067,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 489",
         "lat": 28.06347,
         "lng": 83.896156,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7094,14 +9099,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7116,26 +9134,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 616",
         "lat": 28.048883,
         "lng": 83.908943,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7145,14 +9166,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7167,26 +9201,29 @@ const pollingStationsData = [
         "range": "S.No. 617 to 1253",
         "lat": 28.04763,
         "lng": 83.908013,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7196,14 +9233,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7218,26 +9268,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 728",
         "lat": 28.065086,
         "lng": 83.918065,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7247,14 +9300,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7269,26 +9335,29 @@ const pollingStationsData = [
         "range": "S.No. 729 to 1460",
         "lat": 28.064646,
         "lng": 83.918924,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7298,14 +9367,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7320,26 +9402,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 841",
         "lat": 28.058401,
         "lng": 83.933655,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7349,14 +9434,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7371,26 +9469,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 886",
         "lat": 28.012332,
         "lng": 83.926568,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7400,14 +9501,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7422,26 +9536,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 28.008,
         "lng": 83.909165,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7451,14 +9568,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7473,26 +9603,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1190",
         "lat": 28.007929,
         "lng": 83.909928,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7502,14 +9635,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7524,26 +9670,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 849",
         "lat": 27.989408,
         "lng": 83.913438,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7553,14 +9702,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7575,26 +9737,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 27.960854,
         "lng": 83.887436,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7604,14 +9769,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7626,26 +9804,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1227",
         "lat": 27.959635,
         "lng": 83.885706,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7655,14 +9836,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7677,26 +9871,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1008",
         "lat": 27.989793,
         "lng": 83.87044,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7706,14 +9903,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7728,26 +9938,29 @@ const pollingStationsData = [
         "range": "S.No. 1009 to 2029",
         "lat": 27.989127,
         "lng": 83.86961,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7757,14 +9970,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7779,26 +10005,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 964",
         "lat": 28.022353,
         "lng": 83.879006,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7808,14 +10037,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7830,26 +10072,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1042",
         "lat": 28.000212,
         "lng": 83.892849,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7859,14 +10104,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7881,26 +10139,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 728",
         "lat": 28.049503,
         "lng": 83.94157,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7910,14 +10171,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7932,26 +10206,29 @@ const pollingStationsData = [
         "range": "S.No. 729 to 1479",
         "lat": 28.049575,
         "lng": 83.942496,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -7961,14 +10238,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -7983,26 +10273,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 459",
         "lat": 28.029397,
         "lng": 83.935456,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8012,14 +10305,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8034,26 +10340,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 644",
         "lat": 28.033223,
         "lng": 83.981753,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8063,14 +10372,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8085,26 +10407,29 @@ const pollingStationsData = [
         "range": "S.No. 645 to 1312",
         "lat": 28.032846,
         "lng": 83.980379,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8114,14 +10439,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8136,26 +10474,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 497",
         "lat": 28.02262,
         "lng": 83.999655,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8165,14 +10506,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8187,26 +10541,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1064",
         "lat": 28.012411,
         "lng": 83.954668,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8216,14 +10573,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8238,26 +10608,29 @@ const pollingStationsData = [
         "range": "S.No. 1065 to 2128",
         "lat": 28.011957,
         "lng": 83.953416,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8267,14 +10640,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8289,26 +10675,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 282",
         "lat": 28.003993,
         "lng": 83.975341,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8318,14 +10707,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8340,26 +10742,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 532",
         "lat": 27.984994,
         "lng": 83.954466,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8369,14 +10774,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8391,26 +10809,29 @@ const pollingStationsData = [
         "range": "S.No. 533 to 1119",
         "lat": 27.985892,
         "lng": 83.9528,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8420,14 +10841,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8442,26 +10876,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 756",
         "lat": 27.979453,
         "lng": 83.970673,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8471,14 +10908,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8493,26 +10943,29 @@ const pollingStationsData = [
         "range": "S.No. 757 to 1515",
         "lat": 27.979655,
         "lng": 83.970832,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8522,14 +10975,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8544,26 +11010,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 812",
         "lat": 27.976358,
         "lng": 83.926569,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8573,14 +11042,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8595,26 +11077,29 @@ const pollingStationsData = [
         "range": "S.No. 813 to 1666",
         "lat": 27.977046,
         "lng": 83.926223,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8624,14 +11109,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8646,26 +11144,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 756",
         "lat": 27.947131,
         "lng": 83.927897,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8675,14 +11176,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8697,26 +11211,29 @@ const pollingStationsData = [
         "range": "S.No. 757 to 1512",
         "lat": 27.94759,
         "lng": 83.92854,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8726,14 +11243,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8748,26 +11278,29 @@ const pollingStationsData = [
         "range": "S.No. 1513 to 2314",
         "lat": 27.947014,
         "lng": 83.92915,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8777,14 +11310,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8799,26 +11345,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 1054",
         "lat": 27.954919,
         "lng": 83.955894,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8828,14 +11377,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8850,26 +11412,29 @@ const pollingStationsData = [
         "range": "S.No. 1 to 588",
         "lat": 27.934015,
         "lng": 83.94992,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8879,14 +11444,27 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     },
@@ -8901,26 +11479,29 @@ const pollingStationsData = [
         "range": "S.No. 589 to 1198",
         "lat": 27.933816,
         "lng": 83.951327,
-        
-        // ✏️ FILL IN BELOW
-        "party": "UPDATE",  // Surya/Congress/RSP
-        "visits": 0,  // 0-5+
-        
+        "party": "UPDATE",
+        "visits": 0,
         "demographics": {
-            "maleVoters": 0,  // Count from voter list
-            "femaleVoters": 0,  // Count from voter list
-            "youngVoters": 0,  // Age 18-35
-            "rspVoterPercent": 0  // Estimate 0-100
+            "maleVoters": 0,
+            "femaleVoters": 0,
+            "youngVoters": 0,
+            "rspVoterPercent": 0
         },
-        
+        "localIssues": {
+            "roadAccessibility": "Medium",
+            "healthCare": "Low",
+            "education": "High",
+            "tourism": "Low",
+            "employment": "Medium"
+        },
         "boothRepresentatives": [
             {
-                "name": "UPDATE_NAME",
+                "name": "UPDATE_REP_1",
                 "role": "Booth President",
                 "phone": "98XXXXXXXX"
             },
             {
-                "name": "UPDATE_REP_2", 
+                "name": "UPDATE_REP_2",
                 "role": "Booth Secretary",
                 "phone": "98XXXXXXXX"
             },
@@ -8930,71 +11511,39 @@ const pollingStationsData = [
                 "phone": "98XXXXXXXX"
             }
         ],
-        
         "localKeyPeople": [
             {
-                "name": "UPDATE_PERSON_1",
-                "role": "UPDATE_ROLE",  // Teacher, Business Owner, etc.
+                "name": "UPDATE_KEY_PERSON_1",
+                "role": "UPDATE_ROLE",
                 "phone": "98XXXXXXXX",
-                "influence": "Medium",  // High/Medium/Low
-                "support": "Neutral"  // RSP/Neutral/Opposition
+                "influence": "High",
+                "support": "RSP"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_2",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "Medium",
+                "support": "Neutral"
+            },
+            {
+                "name": "UPDATE_KEY_PERSON_3",
+                "role": "UPDATE_ROLE",
+                "phone": "98XXXXXXXX",
+                "influence": "High",
+                "support": "RSP"
             }
         ]
     }
-
 ];
 
-// ===============================================
-// QUICK REFERENCE GUIDE
-// ===============================================
-/*
-PARTY OPTIONS:
-- "Surya" = Surya Party dominant
-- "Congress" = Congress Party dominant  
-- "RSP" = RSP dominant
-
-INFLUENCE LEVELS:
-- "High" = Well-known, large network, respected
-- "Medium" = Known locally, moderate network
-- "Low" = New, building influence
-
-SUPPORT LEVELS:
-- "RSP" = Supports RSP
-- "Neutral" = No strong political alignment
-- "Opposition" = Supports other parties
-
-RSP VOTER PERCENT GUIDE:
-- 0-20% = Opposition stronghold
-- 20-30% = Competitive
-- 30-40% = Swing area
-- 40-60% = RSP leaning
-- 60-100% = RSP stronghold
-
-COMMON ROLES FOR KEY PEOPLE:
-- School Principal/Teacher
-- Health Post In-charge
-- Business Owner
-- Cooperative President
-- Women's Group Leader
-- Youth Club President
-- Community Leader
-- Former VDC Secretary
-- Ward Committee Member
-
-COMMON TEAM MEMBER ROLES:
-- Volunteer Coordinator
-- Women's Wing Lead
-- Youth Wing Lead
-- Field Organizer
-- Campaign Coordinator
-*/
-    
-    // NOTE: After updating all 171 booths, the calculatePriority and 
-    // calculateOppositionStrength functions will automatically use the 
-    // demographics data to determine booth priorities and opposition strength
+// Export for use
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = pollingStationsData;
+}
 
 // ===============================================
-// ENHANCED POPUP DISPLAY
+// POPUP CONTENT CREATION WITH LOCAL ISSUES
 // ===============================================
 function createPopupContent(station) {
     // Calculate derived values
@@ -9023,6 +11572,14 @@ function createPopupContent(station) {
         'medium': '#f39c12',
         'low': '#27ae60'
     };
+
+    // Get color for issue level
+    function getIssueColor(level) {
+        if (level === 'High') return '#27ae60';
+        if (level === 'Medium') return '#f39c12';
+        if (level === 'Low') return '#e74c3c';
+        return '#95a5a6';
+    }
     
     // Demographics HTML
     const demographicsHTML = `
@@ -9040,6 +11597,30 @@ function createPopupContent(station) {
             <strong style="color: ${station.demographics.rspVoterPercent > 40 ? '#27ae60' : station.demographics.rspVoterPercent > 30 ? '#f39c12' : '#e74c3c'}">
                 ${station.demographics.rspVoterPercent}%
             </strong>
+        </div>
+    `;
+
+    // Local Issues HTML
+    const localIssuesHTML = `
+        <div class="issue-item">
+            <span>🛣️ Road Access:</span>
+            <strong style="color: ${getIssueColor(station.localIssues.roadAccessibility)}">${station.localIssues.roadAccessibility}</strong>
+        </div>
+        <div class="issue-item">
+            <span>🏥 Health Care:</span>
+            <strong style="color: ${getIssueColor(station.localIssues.healthCare)}">${station.localIssues.healthCare}</strong>
+        </div>
+        <div class="issue-item">
+            <span>📚 Education:</span>
+            <strong style="color: ${getIssueColor(station.localIssues.education)}">${station.localIssues.education}</strong>
+        </div>
+        <div class="issue-item">
+            <span>🏞️ Tourism:</span>
+            <strong style="color: ${getIssueColor(station.localIssues.tourism)}">${station.localIssues.tourism}</strong>
+        </div>
+        <div class="issue-item">
+            <span>💼 Employment:</span>
+            <strong style="color: ${getIssueColor(station.localIssues.employment)}">${station.localIssues.employment}</strong>
         </div>
     `;
     
@@ -9097,26 +11678,26 @@ function createPopupContent(station) {
                     </div>
                 </div>
                 
-                <!-- Column 2: RSP Booth Representatives -->
+                <!-- Column 2: RSP Booth Representatives & Local Issues -->
                 <div class="popup-column">
                     <h4>🎯 RSP Booth Representatives</h4>
                     <div class="team-list">
                         ${boothRepsHTML}
                     </div>
+
+                    <h4 style="margin-top: 15px;">📋 Local Issues & Demands</h4>
+                    <div class="issues-list">
+                        ${localIssuesHTML}
+                    </div>
                 </div>
                 
-                <!-- Column 3: Local Key People -->
+                <!-- Column 3: Local Key People & Local Issues -->
                 <div class="popup-column">
                     <h4>🌟 Local Key People</h4>
                     <div class="key-people-list">
                         ${keyPeopleHTML}
                     </div>
                     
-                    <div class="action-buttons" style="margin-top: 20px;">
-                        <button onclick="viewDetails('${station.code}')" class="btn-action">
-                            📋 Full Details
-                        </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -9151,20 +11732,19 @@ function addMarkersToMap() {
         if (currentFilters.party !== 'all' && station.party !== currentFilters.party) return false;
         if (currentFilters.municipality !== 'all' && station.municipality !== currentFilters.municipality) return false;
         if (currentFilters.priority !== 'all' && station.priority !== currentFilters.priority) return false;
-        
         if (currentFilters.visits !== 'all') {
             if (currentFilters.visits === 0 && station.visits !== 0) return false;
             if (currentFilters.visits === '1-2' && (station.visits < 1 || station.visits > 2)) return false;
             if (currentFilters.visits === '3+' && station.visits < 3) return false;
         }
-        
         return true;
     });
     
     // Add markers for filtered stations
     filteredStations.forEach(station => {
-        const icon = createIcon(station.municipality, station.party, station.visits, station.priority);
-        const marker = L.marker([station.lat, station.lng], { icon: icon })
+        const marker = L.marker([station.lat, station.lng], {
+            icon: createIcon(station.municipality, station.party, station.visits, station.priority)
+        })
             .bindPopup(createPopupContent(station), {
                 maxWidth: 900,
                 className: 'custom-popup'
@@ -9174,12 +11754,12 @@ function addMarkersToMap() {
         markers.push(marker);
     });
     
+    // Update statistics
     updateStatistics();
-    updateInsights();
 }
 
 // ===============================================
-// FILTERING FUNCTIONS
+// FILTER STATE & FUNCTIONS
 // ===============================================
 let currentFilters = {
     party: 'all',
@@ -9190,25 +11770,25 @@ let currentFilters = {
 
 function filterByParty(party) {
     currentFilters.party = party;
-    updateActiveButton('.party-btn', party);
+    updateActiveButton('.party-btn', 'party', party);
     addMarkersToMap();
 }
 
 function filterByVisits(visits) {
     currentFilters.visits = visits;
-    updateActiveButton('.visit-btn', visits);
+    updateActiveButton('.visit-btn', 'visits', visits);
     addMarkersToMap();
 }
 
 function filterByMunicipality(municipality) {
     currentFilters.municipality = municipality;
-    updateActiveButton('.mun-btn', municipality);
+    updateActiveButton('.mun-btn', 'mun', municipality);
     addMarkersToMap();
 }
 
 function filterByPriority(priority) {
     currentFilters.priority = priority;
-    updateActiveButton('[data-priority]', priority);
+    updateActiveButton('[data-priority]', 'priority', priority);
     addMarkersToMap();
 }
 
@@ -9235,10 +11815,10 @@ function resetAllFilters() {
     addMarkersToMap();
 }
 
-function updateActiveButton(selector, value) {
+function updateActiveButton(selector, dataAttr, value) {
     document.querySelectorAll(selector).forEach(btn => {
         btn.classList.remove('active');
-        const btnValue = btn.dataset.party || btn.dataset.visits || btn.dataset.mun || btn.dataset.priority;
+        const btnValue = btn.getAttribute(`data-${dataAttr}`);
         if (btnValue === value || btnValue === String(value)) {
             btn.classList.add('active');
         }
@@ -9271,149 +11851,105 @@ function updateStatistics() {
     const suryaCount = visibleStations.filter(s => s.party === 'Surya').length;
     const congressCount = visibleStations.filter(s => s.party === 'Congress').length;
     const rspCount = visibleStations.filter(s => s.party === 'RSP').length;
-    const criticalCount = visibleStations.filter(s => s.priority === 'critical').length;
+    
+    const totalBooths = visibleStations.length;
     const totalVoters = visibleStations.reduce((sum, s) => sum + parseInt(s.voters), 0);
-    
-    // Calculate total team members across all booths
-    const totalVolunteers = visibleStations.reduce((sum, s) => 
-        sum + s.teamMembers.length + s.localKeyPeople.length + 1, 0); // +1 for booth leader
-    
-    const avgVisits = visibleStations.length > 0 
-        ? (visibleStations.reduce((sum, s) => sum + s.visits, 0) / visibleStations.length).toFixed(1)
-        : 0;
-    
+    const totalVisits = visibleStations.reduce((sum, s) => sum + s.visits, 0);
+    const avgVisits = totalBooths > 0 ? (totalVisits / totalBooths).toFixed(1) : 0;
+    const criticalCount = visibleStations.filter(s => s.priority === 'critical').length;
     const visitedCount = visibleStations.filter(s => s.visits > 0).length;
-    const coveragePercent = visibleStations.length > 0 
-        ? ((visitedCount / visibleStations.length) * 100).toFixed(0)
-        : 0;
+    const campaignProgress = totalBooths > 0 ? Math.round((visitedCount / totalBooths) * 100) : 0;
     
-    // Calculate demographic totals
-    const totalMaleVoters = visibleStations.reduce((sum, s) => sum + s.demographics.maleVoters, 0);
-    const totalFemaleVoters = visibleStations.reduce((sum, s) => sum + s.demographics.femaleVoters, 0);
-    const totalYoungVoters = visibleStations.reduce((sum, s) => sum + s.demographics.youngVoters, 0);
-    const avgRSPSupport = visibleStations.length > 0
-        ? (visibleStations.reduce((sum, s) => sum + s.demographics.rspVoterPercent, 0) / visibleStations.length).toFixed(1)
-        : 0;
-    
-    document.getElementById('total-booths').textContent = visibleStations.length;
+    // Update header stats
+    document.getElementById('total-booths').textContent = totalBooths;
     document.getElementById('total-voters').textContent = totalVoters.toLocaleString();
-    document.getElementById('campaign-progress').textContent = coveragePercent + '%';
+    document.getElementById('campaign-progress').textContent = campaignProgress + '%';
     
-    // Update mobile header stats
-    const mobileBooths = document.getElementById('total-booths-mobile');
-    const mobileVoters = document.getElementById('total-voters-mobile');
-    const criticalCountEl = document.getElementById('critical-count');
-    if (mobileBooths) mobileBooths.textContent = visibleStations.length;
-    if (mobileVoters) mobileVoters.textContent = (totalVoters / 1000).toFixed(0) + 'k';
-    if (criticalCountEl) criticalCountEl.textContent = criticalCount;
-    
-    // Update stat cards
-    const statCards = document.querySelectorAll('.stat-card');
-    if (statCards.length >= 6) {
-        statCards[0].querySelector('.stat-value').textContent = suryaCount;
-        statCards[1].querySelector('.stat-value').textContent = congressCount;
-        statCards[2].querySelector('.stat-value').textContent = rspCount;
-        statCards[3].querySelector('.stat-value').textContent = avgVisits;
-        statCards[4].querySelector('.stat-value').textContent = criticalCount;
-        statCards[5].querySelector('.stat-value').textContent = totalVolunteers;
-    }
+    // Update dashboard stats
+    document.querySelectorAll('.stat-card .stat-value')[0].textContent = totalBooths;
+    document.querySelectorAll('.stat-card .stat-value')[1].textContent = totalVoters.toLocaleString();
+    document.querySelectorAll('.stat-card .stat-value')[2].textContent = avgVisits;
+    document.querySelectorAll('.stat-card .stat-value')[3].textContent = criticalCount;
     
     // Update progress bars
-    const totalBooths = pollingStationsData.length;
-    updateProgressBar('.progress-bar-fill.surya', (suryaCount / totalBooths) * 100, suryaCount);
-    updateProgressBar('.progress-bar-fill.congress', (congressCount / totalBooths) * 100, congressCount);
-    updateProgressBar('.progress-bar-fill.rsp', (rspCount / totalBooths) * 100, rspCount);
-    updateProgressBar('.progress-bar-fill.visited', coveragePercent, visitedCount);
-    updateProgressBar('.progress-bar-fill.critical', (criticalCount / totalBooths) * 100, criticalCount);
+    const suryaPercent = totalBooths > 0 ? Math.round((suryaCount / totalBooths) * 100) : 0;
+    const congressPercent = totalBooths > 0 ? Math.round((congressCount / totalBooths) * 100) : 0;
+    const rspPercent = totalBooths > 0 ? Math.round((rspCount / totalBooths) * 100) : 0;
+    const visitedPercent = campaignProgress;
+    const criticalPercent = totalBooths > 0 ? Math.round((criticalCount / totalBooths) * 100) : 0;
     
-    // Also update new progress-fill classes
-    updateProgressBar('.progress-fill.surya', (suryaCount / totalBooths) * 100, suryaCount);
-    updateProgressBar('.progress-fill.congress', (congressCount / totalBooths) * 100, congressCount);
-    updateProgressBar('.progress-fill.rsp', (rspCount / totalBooths) * 100, rspCount);
-    updateProgressBar('.progress-fill.coverage', coveragePercent, visitedCount);
-}
-
-function updateProgressBar(selector, percent, value) {
-    const bar = document.querySelector(selector);
-    if (bar) {
-        bar.style.width = percent + '%';
-        if (percent > 15) {
-            bar.textContent = Math.round(percent) + '%';
-        } else {
-            bar.textContent = '';
-        }
-    }
-}
-
-// ===============================================
-// INSIGHTS UPDATE
-// ===============================================
-function updateInsights() {
-    const insights = [];
+    document.querySelectorAll('.progress-bar-fill')[0].style.width = suryaPercent + '%';
+    document.querySelectorAll('.progress-bar-fill')[0].textContent = suryaPercent + '%';
     
-    // Calculate metrics
-    const unvisitedBooths = pollingStationsData.filter(s => s.visits === 0);
-    const criticalBooths = pollingStationsData.filter(s => {
-        s.priority = calculatePriority(s.voters, s.visits, s.party, s.demographics.rspVoterPercent);
-        return s.priority === 'critical';
-    });
-    const highOppositionBooths = pollingStationsData.filter(s => {
-        s.oppositionStrength = calculateOppositionStrength(s.party, s.voters, s.demographics.rspVoterPercent);
-        return s.oppositionStrength === 'very_high';
-    });
-    const wellCoveredBooths = pollingStationsData.filter(s => s.visits >= 3);
-    const strongRSPBooths = pollingStationsData.filter(s => s.demographics.rspVoterPercent > 40);
+    document.querySelectorAll('.progress-bar-fill')[1].style.width = congressPercent + '%';
+    document.querySelectorAll('.progress-bar-fill')[1].textContent = congressPercent + '%';
+    
+    document.querySelectorAll('.progress-bar-fill')[2].style.width = rspPercent + '%';
+    document.querySelectorAll('.progress-bar-fill')[2].textContent = rspPercent + '%';
+    
+    document.querySelectorAll('.progress-bar-fill')[3].style.width = visitedPercent + '%';
+    document.querySelectorAll('.progress-bar-fill')[3].textContent = visitedPercent + '%';
+    
+    document.querySelectorAll('.progress-bar-fill')[4].style.width = criticalPercent + '%';
+    document.querySelectorAll('.progress-bar-fill')[4].textContent = criticalPercent + '%';
     
     // Generate insights
-    if (unvisitedBooths.length > 0) {
+    const insights = [];
+    if (criticalCount > 0) {
         insights.push({
-            type: 'critical',
-            text: `${unvisitedBooths.length} booths remain unvisited. Immediate deployment required!`
+            icon: 'fas fa-exclamation-circle',
+            text: `${criticalCount} critical booths need immediate attention`,
+            type: 'critical'
         });
     }
     
-    if (criticalBooths.length > 0) {
+    const unvisitedCount = visibleStations.filter(s => s.visits === 0).length;
+    if (unvisitedCount > 0) {
         insights.push({
-            type: 'warning',
-            text: `${criticalBooths.length} critical priority booths need intensive campaigning.`
+            icon: 'fas fa-map-marked-alt',
+            text: `${unvisitedCount} booths not yet visited`,
+            type: 'warning'
         });
     }
     
-    if (highOppositionBooths.length > 0) {
+    if (rspPercent < 30) {
         insights.push({
-            type: 'warning',
-            text: `${highOppositionBooths.length} booths have very high opposition strength.`
+            icon: 'fas fa-chart-line',
+            text: `RSP dominance at ${rspPercent}% - need to expand coverage`,
+            type: 'warning'
+        });
+    } else if (rspPercent > 50) {
+        insights.push({
+            icon: 'fas fa-thumbs-up',
+            text: `Strong RSP presence at ${rspPercent}%`,
+            type: 'success'
         });
     }
     
-    if (wellCoveredBooths.length > 0) {
+    if (campaignProgress < 50) {
         insights.push({
-            type: 'success',
-            text: `${wellCoveredBooths.length} booths have good campaign coverage (3+ visits).`
+            icon: 'fas fa-running',
+            text: `Campaign at ${campaignProgress}% - accelerate outreach`,
+            type: 'info'
         });
     }
     
-    if (strongRSPBooths.length > 0) {
-        insights.push({
-            type: 'success',
-            text: `${strongRSPBooths.length} booths show strong RSP support (>40%).`
-        });
-    }
-    
-    const totalVoters = pollingStationsData.reduce((sum, s) => sum + parseInt(s.voters), 0);
-    insights.push({
-        type: 'success',
-        text: `Total voter base: ${totalVoters.toLocaleString()} across ${pollingStationsData.length} polling booths.`
-    });
-    
+    // Update insights container
     const insightsContainer = document.getElementById('insights-container');
-    if (insightsContainer) {
+    if (insights.length > 0) {
         insightsContainer.innerHTML = insights.map(insight => `
             <div class="insight-item ${insight.type}">
-                <i class="fas ${insight.type === 'critical' ? 'fa-exclamation-circle' : insight.type === 'warning' ? 'fa-exclamation-triangle' : 'fa-check-circle'}"></i>
+                <i class="${insight.icon}"></i>
                 <span>${insight.text}</span>
             </div>
         `).join('');
+    } else {
+        insightsContainer.innerHTML = `
+            <div class="insight-item success">
+                <i class="fas fa-check-circle"></i>
+                <span>Campaign running smoothly!</span>
+            </div>
+        `;
     }
 }
 
@@ -9421,49 +11957,98 @@ function updateInsights() {
 // QUICK ACTION FUNCTIONS
 // ===============================================
 function showHighPriorityBooths() {
+    resetAllFilters();
     currentFilters.priority = 'critical';
-    updateActiveButton('[data-priority]', 'critical');
+    updateActiveButton('[data-priority]', 'priority', 'critical');
     addMarkersToMap();
-    map.setView([28.07, 83.87], 11);
 }
 
 function showUnvisitedBooths() {
+    resetAllFilters();
     currentFilters.visits = 0;
-    updateActiveButton('.visit-btn', 0);
+    updateActiveButton('.visit-btn', 'visits', 0);
     addMarkersToMap();
-    map.setView([28.07, 83.87], 11);
 }
 
 function showTopVoterBooths() {
     resetAllFilters();
-    const sortedBooths = [...pollingStationsData].sort((a, b) => parseInt(b.voters) - parseInt(a.voters));
-    const topBooth = sortedBooths[0];
-    map.setView([topBooth.lat, topBooth.lng], 13);
-}
-
-function scheduleVisit(stationName) {
-    alert(`Scheduling visit for: ${stationName}\n\nThis will open the visit scheduling interface.`);
-}
-
-function callLeader(phone) {
-    window.location.href = `tel:${phone}`;
-}
-
-function viewDetails(code) {
-    alert(`Loading detailed report for booth code: ${code}`);
+    const topBooths = [...pollingStationsData]
+        .sort((a, b) => parseInt(b.voters) - parseInt(a.voters))
+        .slice(0, 10);
+    
+    markers.forEach(marker => map.removeLayer(marker));
+    markers = [];
+    
+    topBooths.forEach(station => {
+        station.priority = calculatePriority(
+            station.voters, 
+            station.visits, 
+            station.party, 
+            station.demographics.rspVoterPercent
+        );
+        
+        const marker = L.marker([station.lat, station.lng], {
+            icon: createIcon(station.municipality, station.party, station.visits, station.priority)
+        })
+            .bindPopup(createPopupContent(station), {
+                maxWidth: 900,
+                className: 'custom-popup'
+            })
+            .addTo(map);
+        
+        markers.push(marker);
+    });
+    
+    if (topBooths.length > 0) {
+        map.fitBounds(topBooths.map(s => [s.lat, s.lng]));
+    }
 }
 
 function exportCampaignData() {
-    alert('Campaign data export feature - generates comprehensive PDF report with all booth statistics, team assignments, demographics, and strategic recommendations.');
+    const csvData = [];
+    csvData.push(['Municipality', 'Ward', 'Station', 'Code', 'Voters', 'Party', 'Visits', 'Priority', 'RSP Support %'].join(','));
+    
+    pollingStationsData.forEach(station => {
+        const priority = calculatePriority(
+            station.voters, 
+            station.visits, 
+            station.party, 
+            station.demographics.rspVoterPercent
+        );
+        
+        csvData.push([
+            station.municipality,
+            station.ward,
+            `"${station.station}"`,
+            station.code,
+            station.voters,
+            station.party,
+            station.visits,
+            priority,
+            station.demographics.rspVoterPercent
+        ].join(','));
+    });
+    
+    const blob = new Blob([csvData.join('\n')], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'campaign-data.csv';
+    a.click();
+}
+
+function viewDetails(code) {
+    alert(`Viewing details for booth ${code}. Full details system coming soon!`);
 }
 
 // ===============================================
 // INITIALIZATION
 // ===============================================
-addMarkersToMap();
-
-// Update last sync time
-setInterval(() => {
+document.addEventListener('DOMContentLoaded', function() {
+    addMarkersToMap();
+    updateStatistics();
+    
+    // Update last sync time
     const now = new Date();
     document.getElementById('last-update').textContent = now.toLocaleTimeString();
-}, 60000);
+});
